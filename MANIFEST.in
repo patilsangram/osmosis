@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include osmosis *.css
+recursive-include osmosis *.csv
+recursive-include osmosis *.html
+recursive-include osmosis *.ico
+recursive-include osmosis *.js
+recursive-include osmosis *.json
+recursive-include osmosis *.md
+recursive-include osmosis *.png
+recursive-include osmosis *.py
+recursive-include osmosis *.svg
+recursive-include osmosis *.txt
+recursive-exclude osmosis *.pyc
