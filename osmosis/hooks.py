@@ -107,3 +107,4 @@ app_version = "0.0.1"
 # 	"frappe.desk.doctype.event.event.get_events": "osmosis.event.get_events"
 # }
 
+fixtures = ["Custom Field"]
