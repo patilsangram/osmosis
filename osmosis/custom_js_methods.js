@@ -16,7 +16,7 @@ make_extra_sales_order = function(btn) {
         loaddoc('Sales Order', eso.name);
 
     }
-    
-
-
+frappe.ui.form.on("Buyback Item","rate", function(frm) {
+    doc.amount = doc.quantity * doc.rate;
+})
 
