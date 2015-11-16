@@ -71,4 +71,3 @@ make_extra_sales_order = function(btn) {
         loaddoc('Sales Order', eso.name);
 
     }
-
