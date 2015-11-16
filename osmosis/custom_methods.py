@@ -1,14 +1,51 @@
-from __future__ import unicode_literals
 import frappe
-from frappe.utils import cstr, flt, fmt_money, formatdate
-from frappe import msgprint, _, scrub
+from frappe.utils import rounded,money_in_words
+from frappe.model.mapper import get_mapped_doc
 
 
-def make_stock_entry(sales_order, method):
-	st = frappe.new_doc('Stock Entry')
-	st.purpose = 'Material Receipt',
-	st.posting_date = doc.posting_date
-	print"hello"
-	for d in sales_order.get("items"):
-		d.item_code = doc.item_code
-	print"hello after"
+
+def create_project(doc, method):
+	"""create new pronect on submit of sales order"""
+	project = frappe.new_doc("Project")
+	project.project_name=doc.name
+	project.sales_order=doc.name
+	project.save(ignore_permissions=True)
+	frappe.msgprint("%s created successfully",project.project_name)
+
+def make_stock_entry(doc, method):
+	"""create stock entry for buy back item"""
+	se = frappe.new_doc("Stock Entry")
+	se.purpose="Material Receipt"
+	se.sales_order=doc.name
+	project.save(ignore_permissions=True)
+	frappe.msgprint("%s created successfully",project.project_name)
+
+
+
+# @frappe.whitelist()
+# def make_extra_sales_order(source_name, target_doc=None):
+# 	doclist = get_mapped_doc("Sales Order", source_name, {
+# 		"Sales Order": {
+# 			"doctype": "Sales Order",
+# 			"validation": {
+# 				"docstatus": ["=", 0]
+# 			}
+# 		},
+# 		"Sales Order Item": {
+# 			"doctype": "Sales Order Item",
+# 			"field_map": {
+# 				"name": "so_detail",
+# 				"parent": "sales_order",
+# 			},
+# 		},
+# 		"Sales Taxes and Charges": {
+# 			"doctype": "Sales Taxes and Charges",
+# 			"add_if_empty": True
+# 		},
+# 		"Sales Team": {
+# 			"doctype": "Sales Team",
+# 			"add_if_empty": True
+# 		}
+# 	}, target_doc)
+
+# 	return doclist

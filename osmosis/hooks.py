@@ -112,4 +112,21 @@ doc_events = {
 # 	"frappe.desk.doctype.event.event.get_events": "osmosis.event.get_events"
 # }
 
-fixtures = ["Custom Field"]
+doc_events = {
+	"Sales Order": {
+		# "on_update": "osmosis.custom_methods.set_total_after_buy_back",
+		"on_submit": ["osmosis.custom_methods.create_project","osmosis.custom_methods.make_stock_entry"],
+	},
+	# "User": {
+	# 	"validate": "erpnext.hr.doctype.employee.employee.validate_employee_role",
+	# 	"on_update": "erpnext.hr.doctype.employee.employee.update_user_permissions"
+	# },
+	# "Sales Taxes and Charges Template": {
+	# 	"on_update": "erpnext.shopping_cart.doctype.shopping_cart_settings.shopping_cart_settings.validate_cart_settings"
+	# },
+	# "Price List": {
+	# 	"on_update": "erpnext.shopping_cart.doctype.shopping_cart_settings.shopping_cart_settings.validate_cart_settings"
+	# },
+}
+
+fixtures = ["Custom Field","Property Setter"]
