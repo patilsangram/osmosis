@@ -16,7 +16,16 @@ make_extra_sales_order = function(btn) {
         loaddoc('Sales Order', eso.name);
 
     }
-frappe.ui.form.on("Buyback Item","rate", function(frm) {
-    doc.amount = doc.quantity * doc.rate;
-})
+frappe.ui.form.on("Buyback Item","rate", function(frm, cdt, cdn) {
+    /*cdoc = locals["price_list_rate: could not find docfield in method precision()"][cdt]
+    console.log(cdoc)
+    cdoc.amount = cdoc.rate * cdoc.quantity;*/
+    // cur_frm.doc.buyback_total = cur_frm.doc.rate;
+    // console.log(frm.doc.amount);
+    console.log("hello");
+    var b = locals[cdt][cdn];
+    b.amount = b.rate * b.quantity;
+    cur_frm.refresh_fields();
+    console.log("after");
+});
 
