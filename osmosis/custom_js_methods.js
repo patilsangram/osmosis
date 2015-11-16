@@ -16,58 +16,40 @@ frappe.ui.form.on("Quotation","customer",function(frm){
 	frm.add_fetch('lead_name', 'society_name', 'society_name');
 })
 
-// //add custom button on sales order
-// frappe.ui.form.on("Sales Order","refresh",function(frm){
-// 	if(frm.doc.docstatus != 'Stopped') {
-// 		cur_frm.add_custom_button(__('Extra Sales Order'), cur_frm.cscript['extra_sales_order']);
-// 	}
-// })
-
-// cur_frm.cscript['extra_sales_order'] = function(doc) {
-// 	frappe.model.open_mapped_doc({
-// 		method: "osmosis.custom_methods.make_extra_sales_order",
-// 		frm: cur_frm
-// 	})
-// }
-
-//added for buy back amount changes reflect on js
-frappe.ui.form.on(cur_frm.doctype,"refresh",function(frm){
-	frappe.ui.form.on(cur_frm.doctype, "buy_back_amount", function(frm) {
-		refresh_grand_total(frm)
-	})
-})
-
-function refresh_grand_total(frm){
-	var distributed_amount = 0.0;
-			var tax_count = frm.doc["taxes"] ? frm.doc["taxes"].length : 0;
-			frm.doc.grand_total = (flt(tax_count ? frm.doc["taxes"][tax_count - 1].total : frm.doc.net_total) - frm.doc.buy_back_amount);
-			console.log(frm.doc.grand_total)
-			frm.doc.base_grand_total = ((frm.doc.total_taxes_and_charges) ?
-				flt(frm.doc.grand_total * frm.doc.conversion_rate) : frm.doc.base_net_total);
-			frappe.model.round_floats_in(frm.doc, ["grand_total", "base_grand_total"]);
-			console.log(frm.doc.base_grand_total)
-			frm.doc.rounded_total = Math.round(frm.doc.grand_total);
-			frm.doc.base_rounded_total = Math.round(frm.doc.base_grand_total);
-			frm.doc.base_in_words = frm.doc.in_words = "";
-	
-		field=["grand_total","base_grand_total","rounded_total","in_words"];
-		refresh_field(field);
-}
+//button on sales order for extra sales order
 frappe.ui.form.on("Sales Order", "refresh", function(frm) {
-		if (cur_frm.doc.docstatus===0) {																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-			cur_frm.add_custom_button(__('Extra Sales Order'), make_extra_sales_order);
-		}
-
+	if (cur_frm.doc.docstatus===0) {																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+		cur_frm.add_custom_button(__('Extra Sales Order'), make_extra_sales_order);
+	}
 });
 
-
 make_extra_sales_order = function(btn) {
-        var eso = frappe.model.make_new_doc_and_get_name('Sales Order');
-        eso = locals['Sales Order'][eso];
-        eso.project_title = cur_frm.doc.project_title;
-        eso.customer = cur_frm.doc.customer;
-        eso.parent_sales_order = cur_frm.doc.name;
-    
-        loaddoc('Sales Order', eso.name);
+    var eso = frappe.model.make_new_doc_and_get_name('Sales Order');
+    eso = locals['Sales Order'][eso];
+    eso.project_title = cur_frm.doc.project_title;
+    eso.customer = cur_frm.doc.customer;
+    eso.parent_sales_order = cur_frm.doc.name;
 
-    }
+    loaddoc('Sales Order', eso.name);
+}
+
+//added for buy back amount changes reflect on js
+frappe.ui.form.on("Buyback Item", "rate", function(frm,cdt,cdn) {
+	d=locals[cdt][cdn]
+	d.amount=parseFloat(d.rate) * parseFloat(d.quantity);
+	refresh_field("buyback_item");
+	refresh_buyback_total(frm);
+});
+
+frappe.ui.form.on("Buyback Item", "buyback_item_remove", function(frm) {
+	refresh_buyback_total(frm);
+});
+
+function refresh_buyback_total(frm){
+	frm.doc.buyback_total = 0.0;
+	$.each(frm.doc["buyback_item"] || [], function(i, buyback_item) {
+		frm.doc.buyback_total += buyback_item.amount;
+	});
+	refresh_field("buyback_total")
+}
+

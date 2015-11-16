@@ -12,6 +12,16 @@ def create_project(doc, method):
 	project.save(ignore_permissions=True)
 	frappe.msgprint("%s created successfully",project.project_name)
 
+def make_stock_entry(doc, method):
+	"""create stock entry for buy back item"""
+	se = frappe.new_doc("Stock Entry")
+	se.purpose="Material Receipt"
+	se.sales_order=doc.name
+	project.save(ignore_permissions=True)
+	frappe.msgprint("%s created successfully",project.project_name)
+
+
+
 # @frappe.whitelist()
 # def make_extra_sales_order(source_name, target_doc=None):
 # 	doclist = get_mapped_doc("Sales Order", source_name, {
