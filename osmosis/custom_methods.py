@@ -1,13 +1,10 @@
 import frappe
 from frappe.utils import rounded,money_in_words
 from frappe.model.mapper import get_mapped_doc
-from erpnext.setup.utils import get_company_currency
-from frappe import _ 
-
+from frappe import throw, _
 
 def create_project(doc, method):
 	"""create new pronect on submit of sales order"""
-
 	if(doc.is_extra_sales_order==True and doc.parent_sales_order):
 		pass
 	else:
