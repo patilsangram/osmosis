@@ -114,7 +114,6 @@ doc_events = {
 
 doc_events = {
 	"Sales Order": {
-		# "on_update": "osmosis.custom_methods.set_total_after_buy_back",
 		"on_submit": ["osmosis.custom_methods.create_project","osmosis.custom_methods.make_stock_entry"],
 	},
 	# "User": {
@@ -127,6 +126,6 @@ doc_events = {
 	# "Price List": {
 	# 	"on_update": "erpnext.shopping_cart.doctype.shopping_cart_settings.shopping_cart_settings.validate_cart_settings"
 	# },
-}
+ }
 
 fixtures = ["Custom Field","Property Setter"]
