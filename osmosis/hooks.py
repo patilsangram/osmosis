@@ -110,7 +110,7 @@ app_version = "0.0.1"
 doc_events = {
 	"Sales Order": {
 		# "on_update": "osmosis.custom_methods.set_total_after_buy_back",
-		"on_submit": ["osmosis.custom_methods.create_project","osmosis.custom_methods.make_stock_entry"],
+		"on_submit": ["osmosis.custom_methods.create_project"],
 	},
 	# "User": {
 	# 	"validate": "erpnext.hr.doctype.employee.employee.validate_employee_role",

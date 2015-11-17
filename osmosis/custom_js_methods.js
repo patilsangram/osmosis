@@ -29,6 +29,7 @@ make_extra_sales_order = function(btn) {
     eso.project_title = cur_frm.doc.project_title;
     eso.customer = cur_frm.doc.customer;
     eso.parent_sales_order = cur_frm.doc.name;
+    eso.is_extra_sales_order=true;
 
     loaddoc('Sales Order', eso.name);
 }
@@ -53,3 +54,9 @@ function refresh_buyback_total(frm){
 	refresh_field("buyback_total")
 }
 
+//added for tools management
+frappe.ui.form.on("Tools","item_code",function(frm,cdt,cdn){
+	console.log("hiii")
+	frm.add_fetch('item_code', 'item_name', 'item_name');
+	refresh_field("item_name")
+})
