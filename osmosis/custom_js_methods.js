@@ -54,11 +54,12 @@ function refresh_buyback_total(frm){
 	refresh_field("buyback_total")
 }
 
-frappe.ui.form.on("Quotation","onload",function(frm){
-	cur_frm.fields_dict['buyback_item'].grid.get_field("item_code").get_query = function(doc) {
+
+frappe.ui.form.on("Quotation","onload" ,function(frm){
+	cur_frm.fields_dict.buyback_item.grid.get_field("item_code").get_query = function(doc) {
 		return {
 			filters: {
-				"item_group":"Buyback",
+				"item_group":"Buyback"
 			}
 		}
 	}

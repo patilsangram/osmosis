@@ -45,6 +45,15 @@ frappe.ui.form.on("Tool Management", "onload", function(frm){
 	hide_in(frm);	
 })
 
+cur_frm.fields_dict.tools.grid.get_field("item_code").get_query = function(doc) {
+	return {
+		filters: { 
+					"item_group":"Tools",
+					"is_stock_item":0,
+				}
+	}
+}
+
 frappe.ui.form.on("Tool Management", "tools_status", function(frm){
 	if(frm.doc.docstatus!=1 && frm.doc.tools_status=="Tools In"){
 		frm.doc.tools_status="";
