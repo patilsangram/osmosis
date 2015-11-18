@@ -47,9 +47,10 @@ frappe.ui.form.on("Tool Management", "onload", function(frm){
 
 cur_frm.fields_dict.tools.grid.get_field("item_code").get_query = function(doc) {
 	return {
+		query: "osmosis.custom_methods.get_stock_item",
 		filters: { 
 					"item_group":"Tools",
-					"is_stock_item":0,
+					"is_stock_item":1,
 				}
 	}
 }

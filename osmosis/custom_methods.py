@@ -33,20 +33,26 @@ def make_stock_entry(doc, method):
 
 def new_stock_entry(doc, method):
 	"""create stock entry on Tool mgmt submt"""
-	frappe.errprint("hello osmosis osmosis")
-	# if doc.tools:
-	if (doc.tools_status == "Tools Out" and doc.tools):
+	if doc.tools:
 		stk_en = frappe.new_doc("Stock Entry")
-		stk_en.purpose = "Material Issue"
+		if (doc.tools_status == "Tools Out"):
+			stk_en.purpose = "Material Issue"
+		elif doc.tools_status == "Tools In":
+			stk_en.purpose = "Material Receipt"
 		stk_en.tool_management = doc.name
 		
-		print"osmosis osmosis osmosis"
 		tool_tab = doc.get("tools")
 		for item in tool_tab:
 			tool_row = stk_en.append("items")
 			tool_row.item_code = item.item_code
 			tool_row.qty = item.qty
 			tool_row.basic_rate = item.rate
-			tool_row.s_warehouse = doc.default_warehouse
+			if doc.tools_status == "Tools Out":
+				tool_row.s_warehouse = doc.default_warehouse
+			elif doc.tools_status == "Tools In":
+				tool_row.t_warehouse = doc.default_warehouse
 			# tool_row.t_warehouse = doc.default_warehouse
 		stk_en.submit()
+
+def get_stock_item(doctype, txt, searchfield, start, page_len, filters):
+	return frappe.db.sql("""select item_code from `tabBin` where actual_qty>0""")
