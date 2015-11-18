@@ -38,6 +38,15 @@ cur_frm.fields_dict.task.get_query = function(doc){
 		}
 }
 
+cur_frm.fields_dict.tools.grid.get_field("item_code").get_query = function(doc) {
+	return {
+		filters: { 
+					"item_group":"Tools",
+					"is_stock_item":1,
+				}
+	}
+}
+
 frappe.ui.form.on("Tool Management", "tools_status", function(frm){
 	if(frm.doc.tools_status=="Tools Out"){
 		frm.set_df_property("in_time", "read_only", 0);
@@ -54,9 +63,9 @@ frappe.ui.form.on("Tool Management", "tools_status", function(frm){
 
 frappe.ui.form.on("Tool Management", "in_time", function(frm){
 
-	if(frm.doc.in_time<frm.doc.out_time){
+	if(frm.doc.in_time < frm.doc.out_time){
 		frm.doc.in_time="";
 		refresh_field("in_time")
-		frappe.msgprint("In time never be greater than out time")
+		frappe.msgprint("In time must be greater than out time")
 	}
 })

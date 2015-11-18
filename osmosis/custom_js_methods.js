@@ -54,9 +54,13 @@ function refresh_buyback_total(frm){
 	refresh_field("buyback_total")
 }
 
-//added for tools management
-frappe.ui.form.on("Tools","item_code",function(frm,cdt,cdn){
-	console.log("hiii")
-	frm.add_fetch('item_code', 'item_name', 'item_name');
-	refresh_field("item_name")
+frappe.ui.form.on("Quotation","onload" ,function(frm){
+	cur_frm.fields_dict.buyback_item.grid.get_field("item_code").get_query = function(doc) {
+	return {
+		filters: {
+			"item_group":"Buyback"
+		}
+	}
+}
 })
+

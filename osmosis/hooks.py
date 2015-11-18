@@ -10,11 +10,7 @@ app_color = "grey"
 app_email = "makarand.b@indictranstech.com"
 app_version = "0.0.1"
 
-doc_events = {
-	"Sales Order": {
-		"on_submit": "osmosis.custom_methods.make_stock_entry"
-	}
-}
+
 # Includes in <head>
 # ------------------
 
@@ -116,6 +112,9 @@ doc_events = {
 	"Sales Order": {
 		"on_submit": ["osmosis.custom_methods.create_project","osmosis.custom_methods.make_stock_entry"],
 	},
+	"Tool Management": {
+		"on_submit": "osmosis.custom_methods.new_stock_entry"
+	}
 	# "User": {
 	# 	"validate": "erpnext.hr.doctype.employee.employee.validate_employee_role",
 	# 	"on_update": "erpnext.hr.doctype.employee.employee.update_user_permissions"
