@@ -10,11 +10,6 @@ app_color = "grey"
 app_email = "makarand.b@indictranstech.com"
 app_version = "0.0.1"
 
-doc_events = {
-	"Sales Order": {
-		"on_submit": "osmosis.custom_methods.make_stock_entry"
-	}
-}
 # Includes in <head>
 # ------------------
 

@@ -17,7 +17,7 @@ def create_project(doc, method):
 
 
 def make_stock_entry(doc, method):
-	"""create stock entry for buy back item"""
+	"""create stock entry for buy back item on submit of sales order"""
 	if doc.buyback_item:
 		se = frappe.new_doc("Stock Entry")
 		se.purpose = "Material Receipt"
@@ -30,4 +30,4 @@ def make_stock_entry(doc, method):
 			bt_row.basic_rate = item.rate
 			bt_row.t_warehouse = item.warehouse
 		se.submit()
-	
+

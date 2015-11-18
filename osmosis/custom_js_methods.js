@@ -5,14 +5,14 @@ frappe.ui.form.on("Lead","onload",function(frm){
 })
 
 //fetch fields from lead on creating customer from lead
-frappe.ui.form.on("Customer","lead_name",function(frm){
+frappe.ui.form.on("Customer","onload",function(frm){
 	frm.add_fetch('lead_name', 'area', 'area');
 	frm.add_fetch('lead_name', 'society_name', 'society_name');
 	frm.add_fetch('lead_name', 'suburb', 'suburb');
 })
 
 //fetch fields from customer on creating quotation from customer
-frappe.ui.form.on("Quotation","customer",function(frm){
+frappe.ui.form.on("Quotation","onload",function(frm){
 	frm.add_fetch('lead_name', 'society_name', 'society_name');
 })
 
@@ -54,9 +54,12 @@ function refresh_buyback_total(frm){
 	refresh_field("buyback_total")
 }
 
-//added for tools management
-frappe.ui.form.on("Tools","item_code",function(frm,cdt,cdn){
-	console.log("hiii")
-	frm.add_fetch('item_code', 'item_name', 'item_name');
-	refresh_field("item_name")
+frappe.ui.form.on("Quotation","onload",function(frm){
+	cur_frm.fields_dict['buyback_item'].grid.get_field("item_code").get_query = function(doc) {
+		return {
+			filters: {
+				"item_group":"Buyback",
+			}
+		}
+	}
 })
