@@ -11,10 +11,7 @@ def create_project(doc, method):
 		project = frappe.new_doc("Project")
 		project.project_name=doc.project_title
 		project.sales_order=doc.name
-<<<<<<< HEAD
-=======
 		project.customer=doc.customer
->>>>>>> 412ce2eac95f6031313180ad26fb8d9966ea6a6f
 		project.save(ignore_permissions=True)
 		frappe.msgprint(_("{0} created successfully").format(project.project_name))
 
