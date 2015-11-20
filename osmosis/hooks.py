@@ -110,10 +110,11 @@ app_version = "0.0.1"
 doc_events = {
 	"Sales Order": {
 		"on_submit": ["osmosis.custom_methods.create_project","osmosis.custom_methods.make_stock_entry"],
+		"on_cancel": ["osmosis.custom_methods.on_cancel_sales_order"],
 	},
 	"Tool Management": {
 		"on_submit": "osmosis.custom_methods.new_stock_entry",
-		"on_update_after_submit":"osmosis.custom_methods.new_stock_entry"
+		"on_update_after_submit":"osmosis.custom_methods.new_stock_entry",
 	}
 	# "User": {
 	# 	"validate": "erpnext.hr.doctype.employee.employee.validate_employee_role",
