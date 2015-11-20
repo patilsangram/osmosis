@@ -19,7 +19,7 @@ frappe.ui.form.on("Quotation","onload",function(frm){
 
 //button on sales order for extra sales order
 frappe.ui.form.on("Sales Order", "refresh", function(frm) {
-	if (frm.doc.docstatus==1 && frm.doc.status != 'Stopped') {	
+	if (frm.doc.docstatus==1 && frm.doc.status != 'Stopped') {																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												
 		cur_frm.add_custom_button(__('Extra Sales Order'), make_extra_sales_order);
 	}
 });
@@ -37,15 +37,24 @@ make_extra_sales_order = function(btn) {
 
 //added for buy back amount changes reflect on js
 frappe.ui.form.on("Buyback Item", "rate", function(frm,cdt,cdn) {
-	d=locals[cdt][cdn]
-	d.amount=parseFloat(d.rate) * parseFloat(d.quantity);
-	refresh_field("buyback_item");
+	refresh_buyback_item(frm);
 	refresh_buyback_total(frm);
+});
+
+frappe.ui.form.on("Buyback Item", "quantity", function(frm,cdt,cdn) {
+	refresh_buyback_item(frm,cdt,cdn);
+	refresh_buyback_total(frm,cdt,cdn);
 });
 
 frappe.ui.form.on("Buyback Item", "buyback_item_remove", function(frm) {
 	refresh_buyback_total(frm);
 });
+
+function refresh_buyback_item(frm,cdt,cdn){
+	d=locals[cdt][cdn]
+	d.amount=parseFloat(d.rate) * parseFloat(d.quantity);
+	refresh_field("buyback_item");
+}
 
 function refresh_buyback_total(frm){
 	frm.doc.buyback_total = 0.0;
@@ -82,8 +91,3 @@ frappe.ui.form.on("Issue","onload" ,function(frm){
 		}
 	}
 })
-
-
-
-
-
