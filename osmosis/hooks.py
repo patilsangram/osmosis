@@ -113,7 +113,8 @@ doc_events = {
 		"on_submit": ["osmosis.custom_methods.create_project","osmosis.custom_methods.make_stock_entry"],
 	},
 	"Tool Management": {
-		"on_submit": "osmosis.custom_methods.new_stock_entry"
+		"on_submit": "osmosis.custom_methods.new_stock_entry",
+		"on_update_after_submit":"osmosis.custom_methods.new_stock_entry"
 	}
 	# "User": {
 	# 	"validate": "erpnext.hr.doctype.employee.employee.validate_employee_role",

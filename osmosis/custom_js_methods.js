@@ -1,3 +1,4 @@
+
 //set current date in date
 frappe.ui.form.on("Lead","onload",function(frm){
 	frm.doc.date= frm.doc.date || frappe.datetime.nowdate();
@@ -5,33 +6,33 @@ frappe.ui.form.on("Lead","onload",function(frm){
 })
 
 //fetch fields from lead on creating customer from lead
-frappe.ui.form.on("Customer","lead_name",function(frm){
+frappe.ui.form.on("Customer","onload",function(frm){
 	frm.add_fetch('lead_name', 'area', 'area');
 	frm.add_fetch('lead_name', 'society_name', 'society_name');
 	frm.add_fetch('lead_name', 'suburb', 'suburb');
 })
 
 //fetch fields from customer on creating quotation from customer
-frappe.ui.form.on("Quotation","customer",function(frm){
-	frm.add_fetch('lead_name', 'society_name', 'society_name');
+frappe.ui.form.on("Quotation","onload",function(frm){
+	frm.add_fetch('customer', 'society_name', 'society_name');
 })
 
 //button on sales order for extra sales order
 frappe.ui.form.on("Sales Order", "refresh", function(frm) {
-	if (cur_frm.doc.docstatus===0) {																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+	if (frm.doc.docstatus==1 && frm.doc.status != 'Stopped') {	
 		cur_frm.add_custom_button(__('Extra Sales Order'), make_extra_sales_order);
 	}
 });
 
 make_extra_sales_order = function(btn) {
-    var eso = frappe.model.make_new_doc_and_get_name('Sales Order');
-    eso = locals['Sales Order'][eso];
-    eso.project_title = cur_frm.doc.project_title;
-    eso.customer = cur_frm.doc.customer;
-    eso.parent_sales_order = cur_frm.doc.name;
-    eso.is_extra_sales_order=true;
+   var eso = frappe.model.make_new_doc_and_get_name('Sales Order');
+   eso = locals['Sales Order'][eso];
+   eso.project_title = cur_frm.doc.project_title;
+   eso.customer = cur_frm.doc.customer;
+   eso.parent_sales_order = cur_frm.doc.name;
+   eso.is_extra_sales_order=true;
 
-    loaddoc('Sales Order', eso.name);
+   loaddoc('Sales Order', eso.name);
 }
 
 //added for buy back amount changes reflect on js
@@ -54,13 +55,35 @@ function refresh_buyback_total(frm){
 	refresh_field("buyback_total")
 }
 
+
 frappe.ui.form.on("Quotation","onload" ,function(frm){
 	cur_frm.fields_dict.buyback_item.grid.get_field("item_code").get_query = function(doc) {
-	return {
-		filters: {
-			"item_group":"Buyback"
+		return {
+			filters: {
+				"item_group":"Buyback"
+			}
+		}	
+	}
+})
+frappe.ui.form.on("Purchase Order","onload" ,function(frm){
+	cur_frm.fields_dict.project.get_query = function(doc) {
+		return {
+			filters: {
+				"status":"Open" 
+			}
 		}
 	}
-}
 })
+frappe.ui.form.on("Issue","onload" ,function(frm){
+	cur_frm.fields_dict.project.get_query = function(doc) {
+		return {
+			query:  
+			 "osmosis.custom_methods.show_new_project"
+		}
+	}
+})
+
+
+
+
 

@@ -1051,5 +1051,31 @@
   "property": "previous_field", 
   "property_type": "Data", 
   "value": "cb0"
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Purchase Order", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocField", 
+  "field_name": "project", 
+  "modified": "2015-11-18 16:44:01.053109", 
+  "name": "Purchase Order-project-previous_field", 
+  "property": "previous_field", 
+  "property_type": "Data", 
+  "value": "transaction_date"
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Issue", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocField", 
+  "field_name": "project", 
+  "modified": "2015-11-19 17:37:18.989278", 
+  "name": "Issue-project-previous_field", 
+  "property": "previous_field", 
+  "property_type": "Data", 
+  "value": "subject"
  }
 ]

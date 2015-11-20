@@ -22,7 +22,7 @@ frappe.ui.form.on("Tool Management", "onload", function(frm){
 })
 
 
-cur_frm.fields_dict.sales_order.get_query = function(doc){
+cur_frm.fields_dict.sales_order.get_query = function(doc){																																																																																																																																																																																																																					
 	return {
 		filters: {"docstatus":1,
 					"project_title":doc.project,
@@ -42,7 +42,7 @@ cur_frm.fields_dict.tools.grid.get_field("item_code").get_query = function(doc) 
 	return {
 		filters: { 
 					"item_group":"Tools",
-					"is_stock_item":1,
+					"is_stock_item":1
 				}
 	}
 }
