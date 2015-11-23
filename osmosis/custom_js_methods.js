@@ -86,8 +86,7 @@ frappe.ui.form.on("Purchase Order","onload" ,function(frm){
 frappe.ui.form.on("Issue","onload" ,function(frm){
 	cur_frm.fields_dict.project.get_query = function(doc) {
 		return {
-			query:  
-			 "osmosis.custom_methods.show_new_project"
+			query: "osmosis.custom_methods.show_new_project"
 		}
 	}
 })

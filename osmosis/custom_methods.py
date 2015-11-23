@@ -77,3 +77,6 @@ def delete_project(doc):
 		# project=frappe.db.get_value("Task",{"Project":project_data.name},"name")
 	else:
 		project_data.delete()
+
+def show_new_project(doctype, txt, searchfield, start, page_len, filters):
+	return frappe.db.sql("""select name from `tabProject` where status = 'Open' OR status = 'Completed'""")
