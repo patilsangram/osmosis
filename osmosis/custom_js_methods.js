@@ -37,8 +37,8 @@ make_extra_sales_order = function(btn) {
 
 //added for buy back amount changes reflect on js
 frappe.ui.form.on("Buyback Item", "rate", function(frm,cdt,cdn) {
-	refresh_buyback_item(frm);
-	refresh_buyback_total(frm);
+	refresh_buyback_item(frm,cdt,cdn);
+	refresh_buyback_total(frm,cdt,cdn);
 });
 
 frappe.ui.form.on("Buyback Item", "quantity", function(frm,cdt,cdn) {
