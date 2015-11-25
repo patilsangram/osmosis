@@ -73,10 +73,38 @@ def delete_project(doc):
 	project=frappe.db.get_value("Project",{"sales_order":doc.name},"name")
 	project_data=frappe.get_doc("Project",project)
 	if(project_data.tasks):
-		frappe.msgprint(_("Can not cancel sales Order as task created for the project"))
+		frappe.throw(_("Can not cancel sales Order as task created for the project"))
 		# project=frappe.db.get_value("Task",{"Project":project_data.name},"name")
 	else:
 		project_data.delete()
 
 def show_new_project(doctype, txt, searchfield, start, page_len, filters):
 	return frappe.db.sql("""select name from `tabProject` where status = 'Open' OR status = 'Completed'""")
+
+def reduce_buyback_amount(doc):
+	if(doc.buyback_total):
+		if(doc.total<doc.buyback_total):
+			frappe.throw(_("Buyback Total Never be greater than Items Total"))
+	if(doc.taxes):
+		for d in doc.get('taxes'):
+			if(d.is_buyback):
+				doc.taxes.remove(d)
+
+		for index,d in enumerate(doc.get('taxes')):
+			d.idx = index + 1
+	
+	if(doc.buyback_total): 			
+		add_bb_to_tax(doc)
+
+	from erpnext.controllers.taxes_and_totals import calculate_taxes_and_totals
+	calculate_taxes_and_totals(doc)
+
+def add_bb_to_tax(doc):
+	taxes=doc.append('taxes',{})
+	taxes.charge_type =	"Actual"
+	taxes.account_head = frappe.db.get_single_value('Osmosis Configurations', 'account_head')
+	taxes.cost_center = frappe.db.get_single_value('Osmosis Configurations', 'cost_center')
+	taxes.description = "Buyback Amount reduced"
+	taxes.tax_amount = -doc.buyback_total
+	taxes.is_buyback = "Yes"
+

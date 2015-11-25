@@ -18,13 +18,15 @@ frappe.ui.form.on("Quotation","onload",function(frm){
 })
 
 //button on sales order for extra sales order
-frappe.ui.form.on("Sales Order", "refresh", function(frm) {
-	if (frm.doc.docstatus==1 && frm.doc.status != 'Stopped') {																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-		cur_frm.add_custom_button(__('Extra Sales Order'), make_extra_sales_order);
-	}
-});
+// frappe.ui.form.on("Sales Order", "refresh", function(frm) {
+// 	if (frm.doc.docstatus==1){ 
+// 		if(frm.doc.status != 'Stopped') {																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+// 			frm.add_custom_button(__('Extra Sales Order'), cur_frm.cscript[make_extra_sales_order]);
+// 		}
+// 	}
+// });
 
-make_extra_sales_order = function(btn) {
+make_extra_sales_order = function() {
    var eso = frappe.model.make_new_doc_and_get_name('Sales Order');
    eso = locals['Sales Order'][eso];
    eso.project_title = cur_frm.doc.project_title;
