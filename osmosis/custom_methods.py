@@ -72,8 +72,8 @@ def cancel_stock_entry(doc):
 def delete_project(doc):
 	project=frappe.db.get_value("Project",{"sales_order":doc.name},"name")
 	project_data=frappe.get_doc("Project",project)
-	if(project_data.tasks):
-		frappe.throw(_("Can not cancel sales Order as task created for the project"))
+	if(project_data.tasks or project_data.status != "Open"):
+		frappe.throw(_("Can not cancel sales Order as project in progress"))
 		# project=frappe.db.get_value("Task",{"Project":project_data.name},"name")
 	else:
 		project_data.delete()
@@ -96,8 +96,8 @@ def reduce_buyback_amount(doc):
 	if(doc.buyback_total): 			
 		add_bb_to_tax(doc)
 
-	from erpnext.controllers.taxes_and_totals import calculate_taxes_and_totals
-	calculate_taxes_and_totals(doc)
+	# from erpnext.controllers.taxes_and_totals import calculate_taxes_and_totals
+	# calculate_taxes_and_totals(doc)
 
 def add_bb_to_tax(doc):
 	taxes=doc.append('taxes',{})
