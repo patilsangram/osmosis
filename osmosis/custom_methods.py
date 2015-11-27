@@ -54,7 +54,9 @@ def new_stock_entry(doc, method):
 		stk_en.submit()
 
 def get_stock_item(doctype, txt, searchfield, start, page_len, filters):
-	return frappe.db.sql("""select item_code from `tabBin` where actual_qty>0""")
+	return frappe.db.sql("""select distinct i.item_code from (select item_code from `tabBin`
+		where actual_qty>0) b, `tabItem` i where i.item_code=b.item_code 
+		and i.item_group='Tools' and i.is_stock_item=1""")
 
 
 def on_cancel_sales_order(doc,method):
@@ -88,7 +90,12 @@ def reduce_buyback_amount(doc):
 	if(doc.taxes):
 		for d in doc.get('taxes'):
 			if(d.is_buyback):
+				if(len(doc.get('taxes')) != ((doc.get('taxes').index(d))+1)):
+					frappe.throw(_("Always Insert Tax before Buyback row"))
 				doc.taxes.remove(d)
+		# if(doc.taxes):
+		# 	if(doc.get('taxes')[0].charge_type == 'On Previous Row Amount' or doc.get('taxes')[0].charge_type == 'On Previous Row Total'):
+		# 		frappe.throw(_("Always Insert Tax before Buyback row"))
 
 		for index,d in enumerate(doc.get('taxes')):
 			d.idx = index + 1

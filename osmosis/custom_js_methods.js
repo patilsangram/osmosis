@@ -92,3 +92,13 @@ frappe.ui.form.on("Issue","onload" ,function(frm){
 		}
 	}
 })
+
+
+frappe.ui.form.on("Sales Taxes and Charges", "charge_type", function(frm, cdt, cdn) {
+	d=locals[cdt][cdn];
+	if(frm.doc.taxes[0].charge_type=='On Previous Row Amount' || frm.doc.taxes[0].charge_type=='On Previous Row Total'){
+		d.charge_type='';
+		refresh_field("charge_type")
+		frappe.msgprint("Charge Type On Previous Row Amount or On Previous Row Total never be first row");
+	}
+})

@@ -38,8 +38,6 @@ cur_frm.fields_dict.task.get_query = function(doc){
 		}
 }
 
-
-
 frappe.ui.form.on("Tool Management", "onload", function(frm){
 	hide_in_out(frm);
 	hide_in(frm);	
@@ -48,10 +46,6 @@ frappe.ui.form.on("Tool Management", "onload", function(frm){
 cur_frm.fields_dict.tools.grid.get_field("item_code").get_query = function(doc) {
 	return {
 		query: "osmosis.custom_methods.get_stock_item",
-		filters: { 
-					"item_group":"Tools",
-					"is_stock_item":1
-				}
 	}
 }
 
