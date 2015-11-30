@@ -90,8 +90,8 @@ def reduce_buyback_amount(doc):
 	if(doc.taxes):
 		for d in doc.get('taxes'):
 			if(d.is_buyback):
-				if(len(doc.get('taxes')) != ((doc.get('taxes').index(d))+1)):
-					frappe.throw(_("Always Insert Tax before Buyback row"))
+				# if(len(doc.get('taxes')) != ((doc.get('taxes').index(d))+1)):
+				# 	frappe.throw(_("Always Insert Tax before Buyback row"))
 				doc.taxes.remove(d)
 		# if(doc.taxes):
 		# 	if(doc.get('taxes')[0].charge_type == 'On Previous Row Amount' or doc.get('taxes')[0].charge_type == 'On Previous Row Total'):
@@ -115,3 +115,31 @@ def add_bb_to_tax(doc):
 	taxes.tax_amount = -doc.buyback_total
 	taxes.is_buyback = "Yes"
 
+@frappe.whitelist()
+def check_customer(name):
+	return frappe.db.get_value("Customer",{'lead_name':name},'lead_name')
+
+@frappe.whitelist()
+def make_customer(source_name, target_doc=None):
+	def set_missing_values(source, target):
+		lead_data = frappe.get_doc("Lead",source.lead)
+		if lead_data.company_name:
+			target.customer_type = "Company"
+			target.customer_name = lead_data.company_name
+		else:
+			target.customer_type = "Individual"
+			target.customer_name = lead_data.lead_name
+		target.area = lead_data.area
+		target.suburb = lead_data.suburb
+		target.website = lead_data.website
+ 	doclist = get_mapped_doc("Quotation", source_name,
+		{"Quotation": {
+			"doctype": "Customer",
+			"field_map": {
+				"lead": "lead_name",
+				"territory":"territory",
+				"society_name":"society_name"
+			}
+		}}, target_doc, set_missing_values)
+
+	return doclist	
