@@ -83,37 +83,37 @@ def delete_project(doc):
 def show_new_project(doctype, txt, searchfield, start, page_len, filters):
 	return frappe.db.sql("""select name from `tabProject` where status = 'Open' OR status = 'Completed'""")
 
-def reduce_buyback_amount(doc):
-	if(doc.buyback_total):
-		if(doc.total<doc.buyback_total):
-			frappe.throw(_("Buyback Total Never be greater than Items Total"))
-	if(doc.taxes):
-		for d in doc.get('taxes'):
-			if(d.is_buyback):
-				# if(len(doc.get('taxes')) != ((doc.get('taxes').index(d))+1)):
-				# 	frappe.throw(_("Always Insert Tax before Buyback row"))
-				doc.taxes.remove(d)
-		# if(doc.taxes):
-		# 	if(doc.get('taxes')[0].charge_type == 'On Previous Row Amount' or doc.get('taxes')[0].charge_type == 'On Previous Row Total'):
-		# 		frappe.throw(_("Always Insert Tax before Buyback row"))
+# def reduce_buyback_amount(doc):
+# 	if(doc.buyback_total):
+# 		if(doc.total<doc.buyback_total):
+# 			frappe.throw(_("Buyback Total Never be greater than Items Total"))
+# 	if(doc.taxes):
+# 		for d in doc.get('taxes'):
+# 			if(d.is_buyback):
+# 				# if(len(doc.get('taxes')) != ((doc.get('taxes').index(d))+1)):
+# 				# 	frappe.throw(_("Always Insert Tax before Buyback row"))
+# 				doc.taxes.remove(d)
+# 		# if(doc.taxes):
+# 		# 	if(doc.get('taxes')[0].charge_type == 'On Previous Row Amount' or doc.get('taxes')[0].charge_type == 'On Previous Row Total'):
+# 		# 		frappe.throw(_("Always Insert Tax before Buyback row"))
 
-		for index,d in enumerate(doc.get('taxes')):
-			d.idx = index + 1
+# 		for index,d in enumerate(doc.get('taxes')):
+# 			d.idx = index + 1
 	
-	if(doc.buyback_total): 			
-		add_bb_to_tax(doc)
+# 	if(doc.buyback_total): 			
+# 		add_bb_to_tax(doc)
 
-	# from erpnext.controllers.taxes_and_totals import calculate_taxes_and_totals
-	# calculate_taxes_and_totals(doc)
+# 	# from erpnext.controllers.taxes_and_totals import calculate_taxes_and_totals
+# 	# calculate_taxes_and_totals(doc)
 
-def add_bb_to_tax(doc):
-	taxes=doc.append('taxes',{})
-	taxes.charge_type =	"Actual"
-	taxes.account_head = frappe.db.get_single_value('Osmosis Configurations', 'account_head')
-	taxes.cost_center = frappe.db.get_single_value('Osmosis Configurations', 'cost_center')
-	taxes.description = "Buyback Amount reduced"
-	taxes.tax_amount = -doc.buyback_total
-	taxes.is_buyback = "Yes"
+# def add_bb_to_tax(doc):
+# 	taxes=doc.append('taxes',{})
+# 	taxes.charge_type =	"Actual"
+# 	taxes.account_head = frappe.db.get_single_value('Osmosis Configurations', 'account_head')
+# 	taxes.cost_center = frappe.db.get_single_value('Osmosis Configurations', 'cost_center')
+# 	taxes.description = "Buyback Amount reduced"
+# 	taxes.tax_amount = -doc.buyback_total
+# 	taxes.is_buyback = "Yes"
 
 @frappe.whitelist()
 def check_customer(name):

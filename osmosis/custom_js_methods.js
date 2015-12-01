@@ -110,8 +110,17 @@ function refresh_buyback_total(frm){
 		frm.doc.buyback_total += buyback_item.amount;
 	});
 	refresh_field("buyback_total")
+	refresh_discount_amount(frm);
 }
 
+frappe.ui.form.on(cur_frm.doctype,"user_discount_amount",function(frm){
+	refresh_discount_amount(frm);
+})
+
+function refresh_discount_amount(frm){
+	frm.doc.discount_amount=(frm.doc.buyback_total || 0)+frm.doc.user_discount_amount;
+	refresh_field("discount_amount");	
+}
 
 frappe.ui.form.on("Quotation","onload" ,function(frm){
 	cur_frm.fields_dict.buyback_item.grid.get_field("item_code").get_query = function(doc) {
@@ -142,12 +151,12 @@ frappe.ui.form.on("Issue","onload" ,function(frm){
 
 frappe.ui.form.on("Sales Taxes and Charges", "charge_type", function(frm, cdt, cdn) {
 	d=locals[cdt][cdn];
-	tax_len=frm.doc.taxes.length;
-	if(tax_len > 1 && frm.doc.taxes[tax_len-2].is_buyback=='Yes'){
-		var item = frappe.get_doc(cdt, cdn);
-		cur_frm.fields_dict["taxes"].grid.grid_rows[item.idx - 1].remove();
-		frappe.msgprint("Insert Tax Above the Buyback row")
-	}
+	// tax_len=frm.doc.taxes.length;
+	// if(tax_len > 1 && frm.doc.taxes[tax_len-2].is_buyback=='Yes'){
+	// 	var item = frappe.get_doc(cdt, cdn);
+	// 	cur_frm.fields_dict["taxes"].grid.grid_rows[item.idx - 1].remove();
+	// 	frappe.msgprint("Insert Tax Above the Buyback row")
+	// }
 	 
 	if(frm.doc.taxes[0].charge_type=='On Previous Row Amount' || frm.doc.taxes[0].charge_type=='On Previous Row Total'){
 		d.charge_type='';
@@ -168,4 +177,3 @@ cur_frm.cscript.custom_onload = function(doc, cdt, cdn) {
 		}
 	}
 }
-
