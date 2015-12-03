@@ -15,7 +15,7 @@ def get_data():
 				{
 					"type": "doctype",
 					"name": "Tool Management",
-					"description": _("Tools work and transction."),
+					"description": _("Tools work and transaction."),
 				},
 			]	
 		},

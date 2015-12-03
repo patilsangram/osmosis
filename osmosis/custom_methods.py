@@ -11,9 +11,10 @@ def create_project(doc, method):
 		project = frappe.new_doc("Project")
 		project.project_name=doc.project_title
 		project.sales_order=doc.name
+		project.expected_start_date=doc.transaction_date
 		project.customer=doc.customer
 		project.save(ignore_permissions=True)
-		frappe.msgprint(_("{0} created successfully").format(project.project_name))
+		frappe.msgprint(_("Project '{0}' created successfully").format(project.project_name))
 
 
 def make_stock_entry(doc, method):

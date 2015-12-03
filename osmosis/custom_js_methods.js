@@ -31,7 +31,7 @@ frappe.ui.form.on("Customer","onload",function(frm){
 
 //fetch fields from customer on creating quotation from customer
 frappe.ui.form.on("Quotation","onload",function(frm){
-	frm.add_fetch('Customer', 'society_name', 'society_name');
+	frm.add_fetch('customer', 'society_name', 'society_name');
 	frm.add_fetch('lead', 'society_name', 'society_name');
 })
 
@@ -109,6 +109,9 @@ function refresh_buyback_total(frm){
 	$.each(frm.doc["buyback_item"] || [], function(i, buyback_item) {
 		frm.doc.buyback_total += buyback_item.amount;
 	});
+	if(frm.doc.buyback_total>frm.doc.Total){
+		frappe.msgprint("Buyback Total Never be greater than Items Total")
+	}
 	refresh_field("buyback_total")
 	refresh_discount_amount(frm);
 }
