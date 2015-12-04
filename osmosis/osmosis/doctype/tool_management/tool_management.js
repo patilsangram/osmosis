@@ -22,7 +22,7 @@ frappe.ui.form.on("Tool Management", "onload", function(frm){
 })
 
 
-cur_frm.fields_dict.sales_order.get_query = function(doc){																																																																																																																																																																																																																					
+cur_frm.fields_dict.sales_order.get_query = function(doc){																																																																																																																																																																																													
 	return {
 		filters: {"docstatus":1,
 					"project_title":doc.project,
@@ -32,10 +32,13 @@ cur_frm.fields_dict.sales_order.get_query = function(doc){
 
 cur_frm.fields_dict.task.get_query = function(doc){
 	return {
-		filters: {
-					"project":doc.project,
-				}
-		}
+		filters: [
+					{
+					'project':doc.project,
+					},
+					['Task','status','in','Open,Working']	
+			]
+	}
 }
 
 frappe.ui.form.on("Tool Management", "onload", function(frm){

@@ -112,6 +112,7 @@ doc_events = {
 		# "validate": ["osmosis.custom_methods.reduce_buyback_amount"],
 		"on_submit": ["osmosis.custom_methods.create_project","osmosis.custom_methods.make_stock_entry"],
 		"on_cancel": ["osmosis.custom_methods.on_cancel_sales_order"],
+		"validate":["osmosis.custom_methods.so_autoname"],
 	},
 	"Tool Management": {
 		"on_submit": "osmosis.custom_methods.new_stock_entry",

@@ -8,15 +8,21 @@ cur_frm.fields_dict.sales_order.get_query = function(doc){
 }
 
 cur_frm.cscript.custom_onload = function(doc, cdt, cdn) {
-	if(doc.doctype=="Task"){	
+	if(doc.doctype=="Task"){
 		cur_frm.fields_dict.depends_on.grid.get_field("task").get_query = function(doc) {
-			return {
-				filters: [
-					{
-					'project':doc.project,
-					},
-					['Task','name','!=',doc.name]
-				]
+			if(doc.project){
+				return {
+					filters: [
+						{
+						'project':doc.project,
+						},
+						['Task','name','!=',doc.name]
+					]
+				}
+			}
+			else
+			{
+				frappe.msgprint("Please select Project First")
 			}	
 		}
 	}
@@ -30,4 +36,3 @@ frappe.ui.form.on("Project Task","start_date",function(frm,cdt,cdn){
 		frappe.msgprint("Task start date never be less than project expected start date");
 	}
 })
-

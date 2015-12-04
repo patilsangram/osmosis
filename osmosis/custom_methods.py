@@ -52,6 +52,7 @@ def new_stock_entry(doc, method):
 			elif doc.tools_status == "Tools In":
 				tool_row.t_warehouse = doc.default_warehouse
 			# tool_row.t_warehouse = doc.default_warehouse
+		stk_en.save(ignore_permissions=True)
 		stk_en.submit()
 
 def get_stock_item(doctype, txt, searchfield, start, page_len, filters):
@@ -144,3 +145,8 @@ def make_customer(source_name, target_doc=None):
 		}}, target_doc, set_missing_values)
 
 	return doclist	
+
+def so_autoname(doc,method):
+	from frappe.model.naming import make_autoname
+	if(doc.is_extra_sales_order and doc.as_dict().get('__islocal')):
+		doc.name=make_autoname('Ex-'+doc.parent_sales_order+'-'+'.##')
