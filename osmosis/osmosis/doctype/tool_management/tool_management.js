@@ -82,8 +82,8 @@ function hide_in_out(frm){
 
 frappe.ui.form.on("Tool Management", "in_time", function(frm){
 	if(frm.doc.in_time < frm.doc.out_time){
-		frm.doc.in_time="";
-		refresh_field("in_time")
+		// frm.doc.in_time="";
+		// refresh_field("in_time")
 		frappe.msgprint("In time must be greater than out time")
 	}
 })

@@ -7,4 +7,6 @@ import frappe
 from frappe.model.document import Document
 
 class ToolManagement(Document):
-	pass
+	def on_update_after_submit(self):
+		if(self.in_time < self.out_time):
+			frappe.throw("In time must be greater than out time")
