@@ -150,3 +150,5 @@ def so_autoname(doc,method):
 	from frappe.model.naming import make_autoname
 	if(doc.is_extra_sales_order and doc.as_dict().get('__islocal')):
 		doc.name=make_autoname('Ex-'+doc.parent_sales_order+'-'+'.##')
+	else:
+		pass
