@@ -146,9 +146,7 @@ def make_customer(source_name, target_doc=None):
 
 	return doclist	
 
-def so_autoname(doc,method):
-	from frappe.model.naming import make_autoname
-	if(doc.is_extra_sales_order and doc.as_dict().get('__islocal')):
-		doc.name=make_autoname('Ex-'+doc.parent_sales_order+'-'+'.##')
-	else:
-		pass
+# def so_autoname(doc,method):
+# 	from frappe.model.naming import make_autoname
+# 	if(doc.is_extra_sales_order and doc.as_dict().get('__islocal')):
+# 		doc.name=make_autoname('Ex-'+doc.parent_sales_order+'-'+'.##')
