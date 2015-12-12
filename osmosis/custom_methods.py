@@ -150,3 +150,16 @@ def make_customer(source_name, target_doc=None):
 # 	from frappe.model.naming import make_autoname
 # 	if(doc.is_extra_sales_order and doc.as_dict().get('__islocal')):
 # 		doc.name=make_autoname('Ex-'+doc.parent_sales_order+'-'+'.##')
+
+def check_employee_timelog(doc,method):
+	other_tm_logs=frappe.db.sql("select name from `tabTime Log` where employee=%s and docstatus=1",doc.employee,as_list=1)
+	for tm_log in other_tm_logs:
+		tm_log_doc=frappe.get_doc("Time Log",tm_log[0])
+		if(tm_log_doc.task):
+			tasks=frappe.get_doc("Task",tm_log_doc.task)
+			if(tasks.status=="Open" or tasks.status=="Working"):
+				from datetime import datetime
+				from_tm=datetime.strptime(doc.from_time, '%Y-%m-%d %H:%M:%S')
+				to_tm=datetime.strptime(doc.to_time, '%Y-%m-%d %H:%M:%S')
+				if((tm_log_doc.from_time<=from_tm<=tm_log_doc.to_time) or (tm_log_doc.from_time<=to_tm<=tm_log_doc.to_time) or (from_tm<=tm_log_doc.from_time<=to_tm) or (from_tm<=tm_log_doc.to_time<=to_tm)):
+					frappe.throw(_("{0} busy in {1} of {2} ").format(doc.employee,tm_log_doc.name,tm_log_doc.task))

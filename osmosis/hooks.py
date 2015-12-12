@@ -118,6 +118,9 @@ doc_events = {
 		"on_submit": "osmosis.custom_methods.new_stock_entry",
 		"on_update_after_submit":"osmosis.custom_methods.new_stock_entry",
 	},
+	"Time Log":{
+		"validate": ["osmosis.custom_methods.check_employee_timelog"],
+	},
 	# "Quotation": {
 	# 	"validate": ["osmosis.custom_methods.reduce_buyback_amount"],
 	# },
