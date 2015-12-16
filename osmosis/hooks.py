@@ -121,6 +121,9 @@ doc_events = {
 	"Time Log":{
 		"validate": ["osmosis.custom_methods.check_employee_timelog"],
 	},
+	"Item Group":{
+		"validate": ["osmosis.custom_methods.create_item_price_list"],
+	},
 	# "Quotation": {
 	# 	"validate": ["osmosis.custom_methods.reduce_buyback_amount"],
 	# },

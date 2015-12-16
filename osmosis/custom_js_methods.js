@@ -42,13 +42,6 @@ frappe.ui.form.on("Opportunity","onload",function(frm){
 
 //button on sales order for extra sales order
 cur_frm.cscript.custom_refresh = function(doc, cdt, cdn) {
-	// if(doc.doctype=="Lead")
-	// {
-	// 	console.log(cur_frm.page.inner_toolbar.children())
-	// 	cur_frm.page.inner_toolbar.children()[0].remove();
-	// 	cur_frm.page.inner_toolbar.children()[1].remove();
-	// }
-
 	if(doc.doctype=="Sales Order" && !doc.is_extra_sales_order){	
 		if (doc.docstatus==1 && doc.status != 'Stopped'){ 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												
 				cur_frm.add_custom_button(__('Extra Sales Order'), make_extra_sales_order);
@@ -56,7 +49,6 @@ cur_frm.cscript.custom_refresh = function(doc, cdt, cdn) {
 	}
 
 	if(doc.doctype=='Quotation' && doc.docstatus==1 && doc.quotation_to=='Lead'){
-		// console.log(doc.lead)
 		frappe.call({
 			method: "osmosis.custom_methods.check_customer",
 			args: {

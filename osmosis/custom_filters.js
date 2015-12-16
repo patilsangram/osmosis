@@ -36,3 +36,15 @@ frappe.ui.form.on("Project Task","start_date",function(frm,cdt,cdn){
 		frappe.msgprint("Task start date never be less than project expected start date");
 	}
 })
+
+cur_frm.cscript.custom_refresh = function(doc, cdt, cdn) {
+	if(doc.doctype=="Task" && !doc.__islocal){	
+		cur_frm.add_custom_button(__('Add Tools Req.'), Tools_required);
+	}
+}
+Tools_required=function(){
+	frappe.model.open_mapped_doc({
+		method: "osmosis.custom_methods.Tools_required",
+		frm: cur_frm
+	})
+}

@@ -163,3 +163,61 @@ def check_employee_timelog(doc,method):
 				to_tm=datetime.strptime(doc.to_time, '%Y-%m-%d %H:%M:%S')
 				if((tm_log_doc.from_time<=from_tm<=tm_log_doc.to_time) or (tm_log_doc.from_time<=to_tm<=tm_log_doc.to_time) or (from_tm<=tm_log_doc.from_time<=to_tm) or (from_tm<=tm_log_doc.to_time<=to_tm)):
 					frappe.throw(_("{0} busy in {1} of {2} ").format(doc.employee,tm_log_doc.name,tm_log_doc.task))
+
+@frappe.whitelist()
+def Tools_required(source_name, target_doc=None):
+	def set_missing_values(source, target):
+		target.tools_status="Tools Out"
+
+	doclist = get_mapped_doc("Task", source_name, {
+		"Task": {
+			"doctype": "Tool Management",
+			"field_map": {
+				"project":"project",
+				"task":"name",
+				"sales_order":"sales_order"
+			},
+		},	
+	}, target_doc,set_missing_values)
+
+	return doclist
+
+def create_item_price_list(doc, method):
+	"""check for standard_buying and standard_selling"""
+	if(doc.standard_buying):
+		std="Standard Buying"
+		find_items(doc,std)
+	if(doc.standard_selling):
+		std="Standard Selling"
+		find_items(doc,std)
+
+def find_items(doc,std,price):
+	items=frappe.db.sql("""select name from `tabItem` where item_group=%s""", (doc.name), as_list=True)
+	if(items):
+		for item in items:
+			item_price_list=frappe.db.sql("""select name from `tabItem Price` where item_code= %s and price_list= %s""", (item[0],std), as_list=True)
+			if(item_price_list):
+				update_item_price_list(doc,item_price_list)
+			else:
+				create_price_list_item(doc,std,item[0])
+
+def update_item_price_list(doc,item_price_list,price):
+	for itm in item_price_list:
+		frappe.db.sql("""update `tabItem Price` set price_list_rate=%s where name=%s""", (price,itm[0]), as_list=True)
+
+def create_price_list_item(doc,std,item):
+	price_list_rate=get_price_list_rate(std,doc)
+	item_price = frappe.get_doc({
+		"doctype": "Item Price",
+		"price_list": std,
+		"item_code": item,
+		"currency": "INR",
+		"price_list_rate": price_list_rate
+	})
+	item_price.insert()
+
+def get_price_list_rate(std,doc):
+	if(std=="Standard Buying"):
+		return doc.buying_price
+	if(std=="Standard Selling"):
+		return doc.selling_price

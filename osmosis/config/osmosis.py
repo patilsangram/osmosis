@@ -35,15 +35,4 @@ def get_data():
 					},
 				]
 		},
-		{	
-			"label":_("Setup"),
-			"icon":"icon-star",
-			"items": [
-				{
-				"type":"doctype",
-				"name":"Osmosis Configurations",
-				"description":_("Tax template for Buyback Item."),
-				}
-			]
-		},
 	]
