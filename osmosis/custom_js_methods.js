@@ -55,20 +55,41 @@ cur_frm.cscript.custom_refresh = function(doc, cdt, cdn) {
 				"name": doc.lead,
 			},
 			callback: function(r) {
-				console.log(r.message)
 				if(!r.message){
 					cur_frm.add_custom_button(__('Create Customer'), new_customer);
 				}
 			}
 		})
 	}
+
+	if(doc.doctype=="Opportunity" && doc.enquiry_from=="Lead"){	
+		frappe.call({
+			method: "osmosis.custom_methods.get_address",
+			args: {
+				"lead": doc.lead,
+			},
+			callback: function(r) {
+				if(r.message){
+					cur_frm.set_value("customer_address",r.message)
+				}
+			}
+		});
+	}
 }
 
 new_customer=function(){
-	frappe.model.open_mapped_doc({
-		method: "osmosis.custom_methods.make_customer",
-		frm: cur_frm
-	})
+	frappe.prompt({fieldtype:"Link", fieldname:"customer_group",options:"Customer Group",label: __("Customer Group"), reqd: 1},
+		function(data) {
+			console.log(cur_frm.doc)
+			console.log(data.customer_group)
+			frappe.call({
+				method:"osmosis.custom_methods.make_customer",
+				args: {
+					"doc": cur_frm.doc,
+					"customer_group":data.customer_group
+				},
+			});
+		}, __("Create Customer"), __("Make"));
 }
 
 make_extra_sales_order = function() {
@@ -79,6 +100,7 @@ make_extra_sales_order = function() {
    eso.customer = cur_frm.doc.customer;
    eso.parent_sales_order = cur_frm.doc.name;
    eso.is_extra_sales_order=true;
+   eso.project_name=cur_frm.doc.project_name
 
    loaddoc('Sales Order', eso.name);
 }

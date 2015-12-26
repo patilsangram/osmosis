@@ -26,6 +26,19 @@ cur_frm.cscript.custom_onload = function(doc, cdt, cdn) {
 			}	
 		}
 	}
+
+	if(doc.doctype=="Project"){
+		cur_frm.fields_dict.tasks.grid.get_field("against_sales_order").get_query = function(doc) {
+			if(doc.sales_order){
+				return {
+					query: "osmosis.custom_methods.get_sales_order",
+					filters:{
+						'sales_order':doc.sales_order,
+					}
+				}
+			}
+		}
+	}
 }
 
 frappe.ui.form.on("Project Task","start_date",function(frm,cdt,cdn){

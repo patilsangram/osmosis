@@ -4,7 +4,7 @@ from frappe.model.mapper import get_mapped_doc
 from frappe import throw, _
 
 def create_project(doc, method):
-	"""create new pronect on submit of sales order"""
+	"""create new project on submit of sales order"""
 	if(doc.is_extra_sales_order==True and doc.parent_sales_order):
 		pass
 	else:
@@ -14,6 +14,8 @@ def create_project(doc, method):
 		project.expected_start_date=doc.transaction_date
 		project.customer=doc.customer
 		project.save(ignore_permissions=True)
+		doc.project_name=doc.project_title
+		frappe.db.set_value("Sales Order",doc.name,"project_name",doc.project_title)
 		frappe.msgprint(_("Project '{0}' created successfully").format(project.project_name))
 
 
@@ -82,6 +84,9 @@ def delete_project(doc):
 	else:
 		project_data.delete()
 
+def get_sales_order(doctype, txt, searchfield, start, page_len, filters):
+	return frappe.db.sql("""select name from `tabSales Order` where (name='%s' or parent_sales_order='%s') and docstatus='1' """%(filters['sales_order'],filters['sales_order']))
+
 def show_new_project(doctype, txt, searchfield, start, page_len, filters):
 	return frappe.db.sql("""select name from `tabProject` where status = 'Open' OR status = 'Completed'""")
 
@@ -122,34 +127,26 @@ def check_customer(name):
 	return frappe.db.get_value("Customer",{'lead_name':name},'lead_name')
 
 @frappe.whitelist()
-def make_customer(source_name, target_doc=None):
-	def set_missing_values(source, target):
-		lead_data = frappe.get_doc("Lead",source.lead)
-		if lead_data.company_name:
-			target.customer_type = "Company"
-			target.customer_name = lead_data.company_name
-		else:
-			target.customer_type = "Individual"
-			target.customer_name = lead_data.lead_name
-		target.area = lead_data.area
-		target.suburb = lead_data.suburb
-		target.website = lead_data.website
- 	doclist = get_mapped_doc("Quotation", source_name,
-		{"Quotation": {
-			"doctype": "Customer",
-			"field_map": {
-				"lead": "lead_name",
-				"territory":"territory",
-				"society_name":"society_name"
-			}
-		}}, target_doc, set_missing_values)
-
-	return doclist	
-
-# def so_autoname(doc,method):
-# 	from frappe.model.naming import make_autoname
-# 	if(doc.is_extra_sales_order and doc.as_dict().get('__islocal')):
-# 		doc.name=make_autoname('Ex-'+doc.parent_sales_order+'-'+'.##')
+def make_customer(doc,customer_group):
+	import json
+	doc=json.loads(doc)
+	cust = frappe.new_doc("Customer")
+	lead_data = frappe.get_doc("Lead",doc.get('lead'))
+	if lead_data.company_name:
+		cust.customer_type = "Company"
+		cust.customer_name = lead_data.company_name
+	else:
+		cust.customer_type = "Individual"
+		cust.customer_name = lead_data.lead_name
+	cust.area = lead_data.area
+	cust.suburb = lead_data.suburb
+	cust.website = lead_data.website
+	cust.lead_name=doc.get('lead')
+	cust.territory=doc.get('territory')
+	cust.society_name=doc.get('society_name')
+	cust.customer_group=customer_group
+	cust.save(ignore_permissions=True)
+	frappe.msgprint(_("Customer '{0}' created successfully").format(cust.customer_name))
 
 def check_employee_timelog(doc,method):
 	other_tm_logs=frappe.db.sql("select name from `tabTime Log` where employee=%s and docstatus=1",doc.employee,as_list=1)
@@ -191,22 +188,23 @@ def create_item_price_list(doc, method):
 		std="Standard Selling"
 		find_items(doc,std)
 
-def find_items(doc,std,price):
+def find_items(doc,std):
 	items=frappe.db.sql("""select name from `tabItem` where item_group=%s""", (doc.name), as_list=True)
 	if(items):
 		for item in items:
 			item_price_list=frappe.db.sql("""select name from `tabItem Price` where item_code= %s and price_list= %s""", (item[0],std), as_list=True)
 			if(item_price_list):
-				update_item_price_list(doc,item_price_list)
+				price_list_rate=get_price_list_rate(std,doc)
+				update_item_price_list(item_price_list,price_list_rate)
 			else:
-				create_price_list_item(doc,std,item[0])
+				price_list_rate=get_price_list_rate(std,doc)
+				create_price_list_item(price_list_rate,std,item[0])
 
-def update_item_price_list(doc,item_price_list,price):
+def update_item_price_list(item_price_list,price_list_rate):	
 	for itm in item_price_list:
-		frappe.db.sql("""update `tabItem Price` set price_list_rate=%s where name=%s""", (price,itm[0]), as_list=True)
+		frappe.db.sql("""update `tabItem Price` set price_list_rate=%s where name=%s""", (price_list_rate,itm[0]), as_list=True)
 
-def create_price_list_item(doc,std,item):
-	price_list_rate=get_price_list_rate(std,doc)
+def create_price_list_item(price_list_rate,std,item):
 	item_price = frappe.get_doc({
 		"doctype": "Item Price",
 		"price_list": std,
@@ -221,3 +219,38 @@ def get_price_list_rate(std,doc):
 		return doc.buying_price
 	if(std=="Standard Selling"):
 		return doc.selling_price
+
+def add_price_from_item(doc,method):
+	item_group=doc.item_group
+	item_group_doc=frappe.get_doc("Item Group",item_group)
+	if(item_group_doc.standard_buying):
+		std="Standard Buying"
+		create_price_list_item(item_group_doc.buying_price,std,doc.name)
+	if(item_group_doc.standard_selling):
+		std="Standard Selling"
+		create_price_list_item(item_group_doc.selling_price,std,doc.name)
+
+def check_tasks_against_project(doc,method):
+	if(doc.project_name):
+		sales_order = doc.items[0].against_sales_order
+		tasks=frappe.db.sql("select name from `tabTask` where project='%s' and sales_order='%s'"%(doc.project_name,sales_order),as_list=1,debug=1)
+		if(tasks):
+			for task in tasks:
+				status=frappe.db.get_value("Task",{"name":task[0]},"status")
+				if(status=="Open" or status=="Working"):
+					frappe.throw(_("Task {0} is {1} Please Closed it.").format(task[0],status))
+
+@frappe.whitelist()
+def get_address(lead):
+	return frappe.db.get_value("Address",{'lead':lead},'name')
+
+
+def send_notifications(doc,method):
+	if(doc.employee):
+		msg = """Task {0} is assigned to you, In Time log {1} to {2},
+		Please complete within Time
+		""".format(doc.task,doc.from_time,doc.to_time)
+		email=frappe.db.get_value("Employee",{"name":doc.employee},"user_id")
+		frappe.sendmail(email, subject=_("Task allocation notification"), content=msg, bulk=True)
+
+

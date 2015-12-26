@@ -120,10 +120,17 @@ doc_events = {
 	},
 	"Time Log":{
 		"validate": ["osmosis.custom_methods.check_employee_timelog"],
+		# "on_submit": ["osmosis.custom_methods.send_notifications"],
 	},
-	"Item Group":{
-		"validate": ["osmosis.custom_methods.create_item_price_list"],
+	"Delivery Note":{
+		"on_submit": ["osmosis.custom_methods.check_tasks_against_project"],
 	},
+	# "Item":{
+	# 	"on_update": ["osmosis.custom_methods.add_price_from_item"],
+	# },
+	# "Item Group":{
+	# 	"validate": ["osmosis.custom_methods.create_item_price_list"],
+	# },
 	# "Quotation": {
 	# 	"validate": ["osmosis.custom_methods.reduce_buyback_amount"],
 	# },
