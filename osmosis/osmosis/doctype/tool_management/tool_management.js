@@ -13,7 +13,7 @@ frappe.ui.form.on("Tools", "qty", function(frm,cdt,cdn){
 })
 
 function cal_amount(d){
-	d.amount=d.qty*d.rate;
+	d.amount=(d.qty || 0)*(d.rate||0);
 	refresh_field("tools")
 }
 
@@ -86,4 +86,20 @@ frappe.ui.form.on("Tool Management", "in_time", function(frm){
 		// refresh_field("in_time")
 		frappe.msgprint("In time must be greater than out time")
 	}
+})
+
+frappe.ui.form.on("Tools", "item_code", function(frm,cdt,cdn){
+	d=locals[cdt][cdn];
+	frappe.call({
+		method: "osmosis.osmosis.doctype.tool_management.tool_management.get_price_list_rate",
+		args: {
+			"item_code": d.item_code,
+		},
+		callback: function(r) {
+			if(r.message){
+				d.rate=r.message
+				refresh_field("tools")
+			}
+		}
+	});
 })

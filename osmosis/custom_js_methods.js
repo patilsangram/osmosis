@@ -80,14 +80,15 @@ cur_frm.cscript.custom_refresh = function(doc, cdt, cdn) {
 new_customer=function(){
 	frappe.prompt({fieldtype:"Link", fieldname:"customer_group",options:"Customer Group",label: __("Customer Group"), reqd: 1},
 		function(data) {
-			console.log(cur_frm.doc)
-			console.log(data.customer_group)
 			frappe.call({
 				method:"osmosis.custom_methods.make_customer",
 				args: {
 					"doc": cur_frm.doc,
 					"customer_group":data.customer_group
 				},
+				callback: function(r) {
+					cur_frm.reload_doc();
+				}
 			});
 		}, __("Create Customer"), __("Make"));
 }

@@ -52,7 +52,7 @@ frappe.ui.form.on("Project Task","start_date",function(frm,cdt,cdn){
 
 cur_frm.cscript.custom_refresh = function(doc, cdt, cdn) {
 	if(doc.doctype=="Task" && !doc.__islocal){	
-		cur_frm.add_custom_button(__('Add Tools Req.'), Tools_required);
+		cur_frm.add_custom_button(__('Add Tools Required'), Tools_required);
 	}
 }
 Tools_required=function(){
