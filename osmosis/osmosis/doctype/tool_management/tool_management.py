@@ -13,4 +13,4 @@ class ToolManagement(Document):
 
 @frappe.whitelist()
 def get_price_list_rate(item_code):
-	return frappe.db.get_value("Item Price",{"item_code":item_code},"price_list_rate") or 0
+	return frappe.db.get_value("Item Price",{"item_code":item_code,"price_list":"Standard Selling"},"price_list_rate") or 0
