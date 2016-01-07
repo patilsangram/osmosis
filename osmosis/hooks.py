@@ -103,9 +103,9 @@ app_version = "0.0.1"
 # Overriding Whitelisted Methods
 # ------------------------------
 #
-# override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "osmosis.event.get_events"
-# }
+override_whitelisted_methods = {
+	"erpnext.selling.doctype.quotation.quotation.make_sales_order": "osmosis.custom_methods.make_sales_order"
+}
 
 doc_events = {
 	"Sales Order": {

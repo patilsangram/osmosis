@@ -253,4 +253,9 @@ def send_notifications(doc,method):
 		email=frappe.db.get_value("Employee",{"name":doc.employee},"user_id")
 		frappe.sendmail(email, subject=_("Task allocation notification"), content=msg, bulk=True)
 
-
+@frappe.whitelist()
+def make_sales_order(source_name, target_doc=None):
+	so=frappe.db.sql("""select name from `tabSales Order Item` where prevdoc_docname=%s and docstatus=1""",source_name)
+	if not so:
+		from erpnext.selling.doctype.quotation.quotation import _make_sales_order
+		return _make_sales_order(source_name, target_doc)

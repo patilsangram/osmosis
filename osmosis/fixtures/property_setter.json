@@ -898,19 +898,6 @@
  }, 
  {
   "default_value": null, 
-  "doc_type": "Time Log", 
-  "docstatus": 0, 
-  "doctype": "Property Setter", 
-  "doctype_or_field": "DocField", 
-  "field_name": "sales_order", 
-  "modified": "2015-12-16 15:10:41.858866", 
-  "name": "Time Log-sales_order-previous_field", 
-  "property": "previous_field", 
-  "property_type": "Data", 
-  "value": "sales_order"
- }, 
- {
-  "default_value": null, 
   "doc_type": "Customer", 
   "docstatus": 0, 
   "doctype": "Property Setter", 
@@ -934,19 +921,6 @@
   "property": "previous_field", 
   "property_type": "Data", 
   "value": "area"
- }, 
- {
-  "default_value": null, 
-  "doc_type": "Quotation", 
-  "docstatus": 0, 
-  "doctype": "Property Setter", 
-  "doctype_or_field": "DocField", 
-  "field_name": "society_name", 
-  "modified": "2015-12-16 15:10:47.045727", 
-  "name": "Quotation-society_name-previous_field", 
-  "property": "previous_field", 
-  "property_type": "Data", 
-  "value": "lead"
  }, 
  {
   "default_value": null, 
@@ -1558,5 +1532,83 @@
   "property": "previous_field", 
   "property_type": "Data", 
   "value": "column_break_50"
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Quotation", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocField", 
+  "field_name": "is_extra_sales_order", 
+  "modified": "2016-01-06 15:03:25.957780", 
+  "name": "Quotation-is_extra_sales_order-previous_field", 
+  "property": "previous_field", 
+  "property_type": "Data", 
+  "value": "company"
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Quotation", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocField", 
+  "field_name": "project_title", 
+  "modified": "2016-01-06 15:18:08.990454", 
+  "name": "Quotation-project_title-previous_field", 
+  "property": "previous_field", 
+  "property_type": "Data", 
+  "value": "is_extra_sales_order"
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Quotation", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocField", 
+  "field_name": "parent_sales_order", 
+  "modified": "2016-01-06 16:48:14.426739", 
+  "name": "Quotation-parent_sales_order-previous_field", 
+  "property": "previous_field", 
+  "property_type": "Data", 
+  "value": "project_title"
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Quotation", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocField", 
+  "field_name": "society_name", 
+  "modified": "2016-01-06 16:48:46.065320", 
+  "name": "Quotation-society_name-previous_field", 
+  "property": "previous_field", 
+  "property_type": "Data", 
+  "value": "lead"
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Item", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocField", 
+  "field_name": "naming_series", 
+  "modified": "2016-01-07 16:28:49.448393", 
+  "name": "Item-naming_series-options", 
+  "property": "options", 
+  "property_type": "Text", 
+  "value": "ITEM-"
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Time Log", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocField", 
+  "field_name": "sales_order", 
+  "modified": "2016-01-07 18:41:17.617536", 
+  "name": "Time Log-sales_order-previous_field", 
+  "property": "previous_field", 
+  "property_type": "Data", 
+  "value": "project"
  }
 ]

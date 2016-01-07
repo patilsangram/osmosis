@@ -31,6 +31,8 @@ frappe.ui.form.on("Customer","onload",function(frm){
 
 //fetch fields from customer on creating quotation from customer
 frappe.ui.form.on("Quotation","onload",function(frm){
+	frm.add_fetch('project_title', 'sales_order', 'parent_sales_order');
+	frm.add_fetch('project_title', 'customer', 'customer');
 	frm.add_fetch('customer', 'society_name', 'society_name');
 	frm.add_fetch('lead', 'society_name', 'society_name');
 })
@@ -42,11 +44,15 @@ frappe.ui.form.on("Opportunity","onload",function(frm){
 
 //button on sales order for extra sales order
 cur_frm.cscript.custom_refresh = function(doc, cdt, cdn) {
-	if(doc.doctype=="Sales Order" && !doc.is_extra_sales_order){	
-		if (doc.docstatus==1 && doc.status != 'Stopped'){ 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-				cur_frm.add_custom_button(__('Extra Sales Order'), make_extra_sales_order);
-		}
+	if(doc.doctype=="Sales Order" && doc.is_extra_sales_order && doc.__islocal){
+		doc.naming_series='EX-SO-';
+		doc.project_name=doc.project_title
 	}
+	// if(doc.doctype=="Sales Order" && !doc.is_extra_sales_order){	
+	// 	if (doc.docstatus==1 && doc.status != 'Stopped'){ 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+	// 			cur_frm.add_custom_button(__('Extra Sales Order'), make_extra_sales_order);
+	// 	}
+	// }
 
 	if(doc.doctype=='Quotation' && doc.docstatus==1 && doc.quotation_to=='Lead'){
 		frappe.call({
@@ -93,18 +99,18 @@ new_customer=function(){
 		}, __("Create Customer"), __("Make"));
 }
 
-make_extra_sales_order = function() {
-   var eso = frappe.model.make_new_doc_and_get_name('Sales Order');
-   eso = locals['Sales Order'][eso];
-   eso.naming_series='Ex-SO-';
-   eso.project_title = cur_frm.doc.project_title;
-   eso.customer = cur_frm.doc.customer;
-   eso.parent_sales_order = cur_frm.doc.name;
-   eso.is_extra_sales_order=true;
-   eso.project_name=cur_frm.doc.project_name
+// make_extra_sales_order = function() {
+//    var eso = frappe.model.make_new_doc_and_get_name('Sales Order');
+//    eso = locals['Sales Order'][eso];
+//    eso.naming_series='Ex-SO-';
+//    eso.project_title = cur_frm.doc.project_title;
+//    eso.customer = cur_frm.doc.customer;
+//    eso.parent_sales_order = cur_frm.doc.name;
+//    eso.is_extra_sales_order=true;
+//    eso.project_name=cur_frm.doc.project_name
 
-   loaddoc('Sales Order', eso.name);
-}
+//    loaddoc('Sales Order', eso.name);
+// }
 
 //added for buy back amount changes reflect on js
 frappe.ui.form.on("Buyback Item", "rate", function(frm,cdt,cdn) {
