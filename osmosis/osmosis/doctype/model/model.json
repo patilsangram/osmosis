@@ -1,6 +1,6 @@
 {
  "allow_copy": 0, 
- "allow_import": 0, 
+ "allow_import": 1, 
  "allow_rename": 0, 
  "autoname": "field:model", 
  "creation": "2016-02-01 12:49:42.382674", 
@@ -43,7 +43,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2016-02-01 12:51:43.085581", 
+ "modified": "2016-02-01 13:18:23.189844", 
  "modified_by": "Administrator", 
  "module": "osmosis", 
  "name": "Model", 
