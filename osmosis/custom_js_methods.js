@@ -209,3 +209,14 @@ cur_frm.cscript.custom_onload = function(doc, cdt, cdn) {
 		}
 	}
 }
+
+
+frappe.ui.form.on("Item","onload" ,function(frm){
+	cur_frm.fields_dict.sub_type.get_query = function(doc) {
+		return {
+			filters: {
+				"parent":doc.type 
+			}
+		}
+	}
+})
