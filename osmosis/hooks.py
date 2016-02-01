@@ -103,8 +103,47 @@ app_version = "0.0.1"
 # Overriding Whitelisted Methods
 # ------------------------------
 #
-# override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "osmosis.event.get_events"
-# }
+override_whitelisted_methods = {
+	"erpnext.selling.doctype.quotation.quotation.make_sales_order": "osmosis.custom_methods.make_sales_order"
+}
 
-fixtures = ["Custom Field"]
+doc_events = {
+	"Sales Order": {
+		# "validate": ["osmosis.custom_methods.reduce_buyback_amount"],
+		"on_submit": ["osmosis.custom_methods.create_project","osmosis.custom_methods.make_stock_entry"],
+		"on_cancel": ["osmosis.custom_methods.on_cancel_sales_order"],
+		# "validate":["osmosis.custom_methods.so_autoname"],
+	},
+	"Tool Management": {
+		"on_submit": "osmosis.custom_methods.new_stock_entry",
+		"on_update_after_submit":"osmosis.custom_methods.new_stock_entry",
+	},
+	"Time Log":{
+		"validate": ["osmosis.custom_methods.check_employee_timelog"],
+		# "on_submit": ["osmosis.custom_methods.send_notifications"],
+	},
+	"Delivery Note":{
+		"on_submit": ["osmosis.custom_methods.check_tasks_against_project"],
+	},
+	# "Item":{
+	# 	"on_update": ["osmosis.custom_methods.add_price_from_item"],
+	# },
+	# "Item Group":{
+	# 	"validate": ["osmosis.custom_methods.create_item_price_list"],
+	# },
+	# "Quotation": {
+	# 	"validate": ["osmosis.custom_methods.reduce_buyback_amount"],
+	# },
+	# "User": {
+	# 	"validate": "erpnext.hr.doctype.employee.employee.validate_employee_role",
+	# 	"on_update": "erpnext.hr.doctype.employee.employee.update_user_permissions"
+	# },
+	# "Sales Taxes and Charges Template": {
+	# 	"on_update": "erpnext.shopping_cart.doctype.shopping_cart_settings.shopping_cart_settings.validate_cart_settings"
+	# },
+	# "Price List": {
+	# 	"on_update": "erpnext.shopping_cart.doctype.shopping_cart_settings.shopping_cart_settings.validate_cart_settings"
+	# },
+ }
+
+fixtures = ["Custom Field","Property Setter","Item Group"]
