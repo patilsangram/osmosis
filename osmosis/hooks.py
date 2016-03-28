@@ -146,4 +146,8 @@ doc_events = {
 	# },
  }
 
+standard_queries = {
+	"Item": "osmosis.custom_methods.item_query"
+}
+
 fixtures = ["Custom Field","Property Setter","Item Group"]
