@@ -1,7 +1,8 @@
 import frappe
-from frappe.utils import rounded,money_in_words
+from frappe.utils import rounded,money_in_words, nowdate
 from frappe.model.mapper import get_mapped_doc
 from frappe import throw, _
+from erpnext.controllers.queries import get_filters_cond, get_match_cond
 
 def create_project(doc, method):
 	"""create new project on submit of sales order"""
@@ -259,3 +260,57 @@ def make_sales_order(source_name, target_doc=None):
 	if not so:
 		from erpnext.selling.doctype.quotation.quotation import _make_sales_order
 		return _make_sales_order(source_name, target_doc)
+
+
+@frappe.whitelist()
+def item_query(doctype, txt, searchfield, start, page_len, filters):
+	conditions = []
+	return frappe.db.sql("""select tabItem.name,
+		if(length(tabItem.item_name) > 40,
+			concat(substr(tabItem.item_name, 1, 40), "..."), item_name) as item_name,
+		if(length(tabItem.description) > 40, \
+			concat(substr(tabItem.description, 1, 40), "..."), description) as decription,
+		CASE tabItem.item_group
+			when "Plumbing" then 
+				concat("<b>DI-IN:</b> ",ifnull(tabItem.diameter_in_inches, 0), " <b>DI-MM:</b> ", ifnull(tabItem.diameter_in_millimeter,0)," <b>TH:</b> ", ifnull(tabItem.thickness,0)," <b>SI:</b> ", ifnull(tabItem.size,0))
+			when "Pump" then
+				concat("<b>DI-IN:</b> ",ifnull(tabItem.diameter_in_inches, 0), " <b>DI-MM:</b> ", ifnull(tabItem.diameter_in_millimeter,0)," <b>O-IN:</b> ", ifnull(tabItem.outlet_in_inches,0)," <b>O-MM:</b> ", ifnull(tabItem.outlet_in_millimeter,0)," <b>HP:</b> ", ifnull(tabItem.hp,0)," <b>PH:</b> ", ifnull(tabItem.phase,0)," <b>ST:</b> ", ifnull(tabItem.stage,0))
+			when "Electrical" or "Unit Component" or "Auto Pump System" then
+				concat("<b>RR:</b> ",ifnull(tabItem.relay_range, 0), " <b>SI:</b>",ifnull(tabItem.size,0))
+			else
+				concat(" ")	
+		END as phase
+		from tabItem
+		where tabItem.docstatus < 2
+			and ifnull(tabItem.has_variants, 0)=0
+			and tabItem.disabled=0
+			and (tabItem.end_of_life > %(today)s or ifnull(tabItem.end_of_life, '0000-00-00')='0000-00-00')
+			and (tabItem.`{key}` LIKE %(txt)s
+				or tabItem.item_name LIKE %(txt)s
+				or tabItem.description LIKE %(txt)s
+				or tabItem.variant_of_item LIKE %(txt)s
+				or tabItem.diameter_in_inches LIKE %(txt)s
+				or tabItem.outlet_in_inches LIKE %(txt)s
+				or tabItem.stage LIKE %(txt)s
+				or tabItem.thickness LIKE %(txt)s
+				or tabItem.size LIKE %(txt)s
+				or tabItem.diameter_in_millimeter LIKE %(txt)s
+				or tabItem.outlet_in_millimeter LIKE %(txt)s
+				or tabItem.phase LIKE %(txt)s
+				or tabItem.hp LIKE %(txt)s
+				or tabItem.relay_range LIKE %(txt)s)
+			{fcond} {mcond}
+		order by
+			if(locate(%(_txt)s, name), locate(%(_txt)s, name), 99999),
+			if(locate(%(_txt)s, item_name), locate(%(_txt)s, item_name), 99999),
+			name, item_name
+		limit %(start)s, %(page_len)s """.format(key=searchfield,
+			fcond=get_filters_cond(doctype, filters, conditions),
+			mcond=get_match_cond(doctype)),
+			{
+				"today": nowdate(),
+				"txt": "%%%s%%" % txt,
+				"_txt": txt.replace("%", ""),
+				"start": start,
+				"page_len": page_len
+			})
