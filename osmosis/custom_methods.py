@@ -287,7 +287,18 @@ def item_query(doctype, txt, searchfield, start, page_len, filters):
 			and (tabItem.end_of_life > %(today)s or ifnull(tabItem.end_of_life, '0000-00-00')='0000-00-00')
 			and (tabItem.`{key}` LIKE %(txt)s
 				or tabItem.item_name LIKE %(txt)s
-				or tabItem.description LIKE %(txt)s)
+				or tabItem.description LIKE %(txt)s
+				or tabItem.variant_of_item LIKE %(txt)s
+				or tabItem.diameter_in_inches LIKE %(txt)s
+				or tabItem.outlet_in_inches LIKE %(txt)s
+				or tabItem.stage LIKE %(txt)s
+				or tabItem.thickness LIKE %(txt)s
+				or tabItem.size LIKE %(txt)s
+				or tabItem.diameter_in_millimeter LIKE %(txt)s
+				or tabItem.outlet_in_millimeter LIKE %(txt)s
+				or tabItem.phase LIKE %(txt)s
+				or tabItem.hp LIKE %(txt)s
+				or tabItem.relay_range LIKE %(txt)s)
 			{fcond} {mcond}
 		order by
 			if(locate(%(_txt)s, name), locate(%(_txt)s, name), 99999),
