@@ -1831,5 +1831,44 @@
   "property": "read_only_onload", 
   "property_type": "Check", 
   "value": null
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Supplier", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocType", 
+  "field_name": null, 
+  "modified": "2016-03-31 17:51:36.507201", 
+  "name": "Supplier-sort_order", 
+  "property": "sort_order", 
+  "property_type": "Data", 
+  "value": "ASC"
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Supplier", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocType", 
+  "field_name": null, 
+  "modified": "2016-03-31 17:59:12.871486", 
+  "name": "Supplier-_idx", 
+  "property": "_idx", 
+  "property_type": "Text", 
+  "value": "[\"basic_info\", \"naming_series\", \"supplier_name\", \"column_break0\", \"supplier_type\", \"is_frozen\", \"section_break_7\", \"default_currency\", \"default_price_list\", \"vat_tin_no\", \"pan_no\", \"column_break_10\", \"default_taxes_and_charges\", \"credit_days\", \"cst_tin_no\", \"wef\", \"address_contacts\", \"address_html\", \"column_break1\", \"contact_html\", \"default_payable_accounts\", \"accounts\", \"column_break2\", \"website\", \"supplier_details\", \"communications\"]"
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Supplier", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocType", 
+  "field_name": null, 
+  "modified": "2016-03-31 18:00:11.172321", 
+  "name": "Supplier-read_only_onload", 
+  "property": "read_only_onload", 
+  "property_type": "Check", 
+  "value": null
  }
 ]
