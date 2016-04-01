@@ -125,6 +125,9 @@ doc_events = {
 	"Delivery Note":{
 		"on_submit": ["osmosis.custom_methods.check_tasks_against_project"],
 	},
+	"Employee": {
+		"autoname": "osmosis.custom_methods.employee_autoname"
+	},
 	# "Item":{
 	# 	"on_update": ["osmosis.custom_methods.add_price_from_item"],
 	# },

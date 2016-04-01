@@ -314,3 +314,7 @@ def item_query(doctype, txt, searchfield, start, page_len, filters):
 				"start": start,
 				"page_len": page_len
 			})
+
+@frappe.whitelist()
+def employee_autoname(doc, method):
+	doc.name = doc.employee_id
