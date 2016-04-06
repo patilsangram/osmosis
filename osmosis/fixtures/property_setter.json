@@ -1,6 +1,45 @@
 [
  {
   "default_value": null, 
+  "doc_type": "Opportunity", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocField", 
+  "field_name": "naming_series", 
+  "modified": "2016-04-05 20:06:07.038372", 
+  "name": "Opportunity-naming_series-options", 
+  "property": "options", 
+  "property_type": "Text", 
+  "value": "OPTY-"
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Employee", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocField", 
+  "field_name": "naming_series", 
+  "modified": "2016-04-05 20:06:29.510573", 
+  "name": "Employee-naming_series-options", 
+  "property": "options", 
+  "property_type": "Text", 
+  "value": "EMP/"
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Customer", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocField", 
+  "field_name": "naming_series", 
+  "modified": "2016-04-05 20:18:17.179063", 
+  "name": "Customer-naming_series-options", 
+  "property": "options", 
+  "property_type": "Text", 
+  "value": "CUST-"
+ }, 
+ {
+  "default_value": null, 
   "doc_type": "Customer", 
   "docstatus": 0, 
   "doctype": "Property Setter", 
