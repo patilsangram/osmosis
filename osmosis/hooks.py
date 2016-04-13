@@ -128,6 +128,10 @@ doc_events = {
 	"Employee": {
 		"autoname": "osmosis.custom_methods.employee_autoname"
 	},
+	"Attendance": {
+		"validate": "osmosis.custom_methods.time_validation"
+	}
+
 	# "Item":{
 	# 	"on_update": ["osmosis.custom_methods.add_price_from_item"],
 	# },

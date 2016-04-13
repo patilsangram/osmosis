@@ -318,3 +318,11 @@ def item_query(doctype, txt, searchfield, start, page_len, filters):
 @frappe.whitelist()
 def employee_autoname(doc, method):
 	doc.name = doc.employee_id
+
+@frappe.whitelist()
+def time_validation(doc, method):
+	if not doc.time_out or not doc.time_in:
+		frappe.throw("Enter Time In and Time Out")
+	if doc.time_out < doc.time_in:
+		frappe.throw("'Time Out' should be greater than 'Time In'")
+	
