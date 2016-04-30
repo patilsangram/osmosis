@@ -2000,5 +2000,31 @@
   "property": "read_only_onload", 
   "property_type": "Check", 
   "value": null
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Leave Application", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocType", 
+  "field_name": null, 
+  "modified": "2016-04-28 16:28:32.255914", 
+  "name": "Leave Application-read_only_onload", 
+  "property": "read_only_onload", 
+  "property_type": "Check", 
+  "value": null
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Leave Application", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocField", 
+  "field_name": "description", 
+  "modified": "2016-04-28 16:28:32.350724", 
+  "name": "Leave Application-description-hidden", 
+  "property": "hidden", 
+  "property_type": "Check", 
+  "value": "1"
  }
 ]
