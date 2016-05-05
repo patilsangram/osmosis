@@ -1252,19 +1252,6 @@
   "doc_type": "Sales Order", 
   "docstatus": 0, 
   "doctype": "Property Setter", 
-  "doctype_or_field": "DocType", 
-  "field_name": null, 
-  "modified": "2016-01-04 15:04:59.009946", 
-  "name": "Sales Order-read_only_onload", 
-  "property": "read_only_onload", 
-  "property_type": "Check", 
-  "value": null
- }, 
- {
-  "default_value": null, 
-  "doc_type": "Sales Order", 
-  "docstatus": 0, 
-  "doctype": "Property Setter", 
   "doctype_or_field": "DocField", 
   "field_name": "project_title", 
   "modified": "2016-01-04 15:04:59.514436", 
@@ -2026,5 +2013,57 @@
   "property": "hidden", 
   "property_type": "Check", 
   "value": "1"
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Maintenance Visit", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocType", 
+  "field_name": null, 
+  "modified": "2016-05-04 13:05:04.100764", 
+  "name": "Maintenance Visit-read_only_onload", 
+  "property": "read_only_onload", 
+  "property_type": "Check", 
+  "value": null
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Maintenance Schedule", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocType", 
+  "field_name": null, 
+  "modified": "2016-05-04 13:07:18.119107", 
+  "name": "Maintenance Schedule-sort_field", 
+  "property": "sort_field", 
+  "property_type": "Data", 
+  "value": "modified"
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Maintenance Schedule", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocType", 
+  "field_name": null, 
+  "modified": "2016-05-04 13:12:42.732192", 
+  "name": "Maintenance Schedule-read_only_onload", 
+  "property": "read_only_onload", 
+  "property_type": "Check", 
+  "value": null
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Sales Order", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocType", 
+  "field_name": null, 
+  "modified": "2016-05-05 14:39:03.950672", 
+  "name": "Sales Order-read_only_onload", 
+  "property": "read_only_onload", 
+  "property_type": "Check", 
+  "value": null
  }
 ]
