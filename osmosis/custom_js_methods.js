@@ -14,6 +14,39 @@ frappe.ui.form.on("Opportunity","contact_date",function(frm){
 	check_date(frm.doc);
 })
 
+frappe.ui.form.on("Maintenance Schedule","customer" ,function(frm){
+	return frappe.call({
+			method: "osmosis.custom_methods.customer_details",
+			args: {
+				customer: frm.doc.customer,
+				
+			},
+			callback: function(r) {
+				if(r.message){
+					frm.set_value("society_name", r.message[0]);
+					frm.set_value("suburb", r.message[1]);
+				}
+			}
+		});
+	})
+
+frappe.ui.form.on("Sales Order","customer" ,function(frm){
+	return frappe.call({
+			method: "osmosis.custom_methods.customer_details",
+			args: {
+				customer: frm.doc.customer,
+				
+			},
+			callback: function(r) {
+				if(r.message){					
+					frm.set_value("society_name", r.message[0]);
+					frm.set_value("suburb", r.message[1]);
+				}
+				
+			}
+		});
+	})
+
 function check_date(doc){
 	if(doc.contact_date<frappe.datetime.get_datetime_as_string()){
 		doc.contact_date=frappe.datetime.get_datetime_as_string();
@@ -210,7 +243,6 @@ cur_frm.cscript.custom_onload = function(doc, cdt, cdn) {
 	}
 }
 
-
 frappe.ui.form.on("Item","onload" ,function(frm){
 	cur_frm.fields_dict.sub_type.get_query = function(doc) {
 		return {
@@ -220,3 +252,4 @@ frappe.ui.form.on("Item","onload" ,function(frm){
 		}
 	}
 })
+

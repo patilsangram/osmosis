@@ -325,4 +325,13 @@ def time_validation(doc, method):
 		frappe.throw("Enter Time In and Time Out")
 	if doc.time_out < doc.time_in:
 		frappe.throw("'Time Out' should be greater than 'Time In'")
+
+@frappe.whitelist()
+def customer_details(customer):
+	cust=frappe.get_doc("Customer",customer)
+	society= cust.society_name
+	suburb=cust.suburb
+	info=[society,suburb]
+	return info
+
 	
