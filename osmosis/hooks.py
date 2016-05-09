@@ -77,12 +77,15 @@ app_version = "0.0.1"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"osmosis.tasks.all"
-# 	],
+scheduler_events = {
+	"all": [
+		# "osmosis.tasks.all"
+		"osmosis.maintenance_schedule.auto_status_update_ms"
+	],
+}
 # 	"daily": [
 # 		"osmosis.tasks.daily"
+		 
 # 	],
 # 	"hourly": [
 # 		"osmosis.tasks.hourly"
@@ -130,7 +133,10 @@ doc_events = {
 	},
 	"Attendance": {
 		"validate": "osmosis.custom_methods.time_validation"
-	}
+	},
+	# "Maintenance Schedule": {
+	# 	"validate": "osmosis.maintenance_schedule.auto_status_update_ms"
+	# }
 
 	# "Item":{
 	# 	"on_update": ["osmosis.custom_methods.add_price_from_item"],
