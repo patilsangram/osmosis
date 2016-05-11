@@ -1,0 +1,1 @@
+cur_frm.add_fetch('Sales_Order', 'advance_paid', 'pay_recevied');

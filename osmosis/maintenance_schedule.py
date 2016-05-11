@@ -8,7 +8,20 @@ from frappe.utils import add_days, getdate, formatdate, get_first_day, date_diff
 
 
 def auto_status_update_ms(doc, method):
-	new = add_years(doc.installation_date, doc.contract_period)
+	new = add_years(doc.installation_date, doc.guarantee_period)
+	
 	doc.amc_guarantee_valid_upto_date=new
-	if doc.transaction_date >= doc.amc_guarantee_valid_upto_date:
-		doc.amc_status = "Expired"
+	if doc.transaction_date:
+		doc.amc_status="Untraceable"
+	if date_diff(doc.transaction_date,doc.installation_date)<=365*doc.contract_period:
+		doc.amc_status="N/A"
+	if doc.amc_guarantee_valid_upto_date>doc.transaction_date:
+		doc.amc_status = "Guarantee"
+	else:
+		doc.amc_status="Expired"
+	if doc.amc_start_month:
+		guarntee=add_years(doc.amc_start_month,doc.contract_period)
+		doc.amc_guarantee_valid_upto_date=guarntee
+		doc.amc_status = "AMC"
+	# else:
+	# 	doc.amc_status="Expired"
