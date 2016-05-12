@@ -61,3 +61,21 @@ Tools_required=function(){
 		frm: cur_frm
 	})
 }
+
+/*frappe.ui.form.on("Task","helper_name",function(frm){*/
+	cur_frm.fields_dict['helper_name'].get_query = function(doc) {
+	return {
+		query:"osmosis.custom_methods.get_info_if_employee_help"
+	}
+}
+cur_frm.fields_dict['technician_name'].get_query = function(doc) {
+	return {
+		query:"osmosis.custom_methods.get_info_if_employee_tech"
+	}
+}
+cur_frm.fields_dict['supervisor_name'].get_query = function(doc) {
+	return {
+		query:"osmosis.custom_methods.get_info_if_employee_sup"
+	}
+}
+/*})*/

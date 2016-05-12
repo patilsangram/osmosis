@@ -1977,19 +1977,6 @@
  }, 
  {
   "default_value": null, 
-  "doc_type": "Item", 
-  "docstatus": 0, 
-  "doctype": "Property Setter", 
-  "doctype_or_field": "DocType", 
-  "field_name": null, 
-  "modified": "2016-04-13 11:01:14.150885", 
-  "name": "Item-read_only_onload", 
-  "property": "read_only_onload", 
-  "property_type": "Check", 
-  "value": null
- }, 
- {
-  "default_value": null, 
   "doc_type": "Leave Application", 
   "docstatus": 0, 
   "doctype": "Property Setter", 
@@ -2114,6 +2101,32 @@
   "field_name": null, 
   "modified": "2016-05-11 13:06:39.180617", 
   "name": "Maintenance Schedule-read_only_onload", 
+  "property": "read_only_onload", 
+  "property_type": "Check", 
+  "value": null
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Item", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocType", 
+  "field_name": null, 
+  "modified": "2016-05-11 16:26:16.645939", 
+  "name": "Item-read_only_onload", 
+  "property": "read_only_onload", 
+  "property_type": "Check", 
+  "value": null
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Task", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocType", 
+  "field_name": null, 
+  "modified": "2016-05-11 19:03:07.682896", 
+  "name": "Task-read_only_onload", 
   "property": "read_only_onload", 
   "property_type": "Check", 
   "value": null

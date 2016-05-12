@@ -23,5 +23,3 @@ def auto_status_update_ms(doc, method):
 		guarntee=add_years(doc.amc_start_month,doc.contract_period)
 		doc.amc_guarantee_valid_upto_date=guarntee
 		doc.amc_status = "AMC"
-	# else:
-	# 	doc.amc_status="Expired"
