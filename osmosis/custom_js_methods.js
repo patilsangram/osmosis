@@ -253,3 +253,8 @@ frappe.ui.form.on("Item","onload" ,function(frm){
 	}
 })
 
+
+frappe.ui.form.on("Quotation Item","item_code",function(frm){
+	console.log("hii")
+})
+

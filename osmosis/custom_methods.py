@@ -345,7 +345,8 @@ def get_info_if_employee_tech(doctype, txt, searchfield, start, page_len, filter
 @frappe.whitelist()
 def get_info_if_employee_sup(doctype, txt, searchfield, start, page_len, filters):
 	return frappe.db.sql("""select name from `tabEmployee` where designation like '%supe%'""")
-
+	
 @frappe.whitelist()
 def price_list_rates(item_code):
-	frappe.db.get_all()
+	rates=frappe.db.get_all("Item Price",filters={"buying":1,"item_code":item_code},fields=["price_list","price_list_rate"])
+	return rates
