@@ -1,6 +1,45 @@
 [
  {
   "default_value": null, 
+  "doc_type": "Maintenance Visit Purpose", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocType", 
+  "field_name": null, 
+  "modified": "2016-05-13 16:38:11.921665", 
+  "name": "Maintenance Visit Purpose-sort_order", 
+  "property": "sort_order", 
+  "property_type": "Data", 
+  "value": "DESC"
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Maintenance Visit Purpose", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocType", 
+  "field_name": null, 
+  "modified": "2016-05-13 16:38:13.033362", 
+  "name": "Maintenance Visit Purpose-sort_field", 
+  "property": "sort_field", 
+  "property_type": "Data", 
+  "value": "modified"
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Maintenance Visit Purpose", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocType", 
+  "field_name": null, 
+  "modified": "2016-05-13 16:38:29.546377", 
+  "name": "Maintenance Visit Purpose-read_only_onload", 
+  "property": "read_only_onload", 
+  "property_type": "Check", 
+  "value": null
+ }, 
+ {
+  "default_value": null, 
   "doc_type": "Opportunity", 
   "docstatus": 0, 
   "doctype": "Property Setter", 
@@ -2127,6 +2166,19 @@
   "field_name": null, 
   "modified": "2016-05-11 19:03:07.682896", 
   "name": "Task-read_only_onload", 
+  "property": "read_only_onload", 
+  "property_type": "Check", 
+  "value": null
+ }, 
+ {
+  "default_value": null, 
+  "doc_type": "Quotation Item", 
+  "docstatus": 0, 
+  "doctype": "Property Setter", 
+  "doctype_or_field": "DocType", 
+  "field_name": null, 
+  "modified": "2016-05-13 18:20:59.523342", 
+  "name": "Quotation Item-read_only_onload", 
   "property": "read_only_onload", 
   "property_type": "Check", 
   "value": null
