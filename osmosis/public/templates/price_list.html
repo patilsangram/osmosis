@@ -1,0 +1,22 @@
+<div class="select-price">
+  <table class="table table-bordered table-condensed">
+	   <thead>
+	      	<tr>
+		        <td align="center"> Select</td>
+		        <td align="center"><b>Supplier Name</b></td>
+		        <td align="center"><b>Price</b></td>
+	    	</tr>
+	    </thead>
+	    <tbody>
+	    {% $.each(items, function(i, price_list ){ %}
+	    <tr id="demo">
+			<td align="center" id="check_id">
+				<input type="radio" class="prices" name="price_list"></input>
+			</td>
+			<td align="left" class="supplier">{%= price_list.supplier %}</td>
+			<td align="left" class="rate">{%= price_list.price %}</td>
+		</tr>
+		 {% }); %}
+		 </tbody>
+  </table>
+</div>

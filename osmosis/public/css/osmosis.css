@@ -1,0 +1,4 @@
+.select-price {
+	overflow-y: scroll !important;
+	max-height: 150px !important; 
+}
