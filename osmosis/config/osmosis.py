@@ -17,6 +17,11 @@ def get_data():
 					"name": "Tool Management",
 					"description": _("Tools work and transaction."),
 				},
+				{
+					"type": "doctype",
+					"name": "Wing",
+					"description": _("Customer Wing."),
+				},
 			]	
 		},
 		{
