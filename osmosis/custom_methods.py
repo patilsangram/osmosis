@@ -1,5 +1,5 @@
 import frappe
-from frappe.utils import rounded,money_in_words, nowdate
+from frappe.utils import rounded,money_in_words, nowdate, flt
 from frappe.model.mapper import get_mapped_doc
 from frappe import throw, _
 from erpnext.controllers.queries import get_filters_cond, get_match_cond
@@ -345,7 +345,42 @@ def get_info_if_employee_tech(doctype, txt, searchfield, start, page_len, filter
 @frappe.whitelist()
 def get_info_if_employee_sup(doctype, txt, searchfield, start, page_len, filters):
 	return frappe.db.sql("""select name from `tabEmployee` where designation like '%supe%'""")
-
+	
 @frappe.whitelist()
 def price_list_rates(item_code):
-	frappe.db.get_all()
+	rates=frappe.db.get_all("Item Price",filters={"buying":1,"item_code":item_code},fields=["price_list","price_list_rate"])
+	# return rates
+	print "Inside rate"
+	price_list=[]
+	for rate in rates:
+		price=rate.get("price_list_rate")
+		tax_on_price=item_taxes_with_profit(item_code)
+		total_tax_amount=price*tax_on_price.get("tax")/100 + tax_on_price.get("amount")
+		
+		total_amount_without_profit=price+total_tax_amount
+		total_amount_with_profit=total_amount_without_profit+(total_amount_without_profit*tax_on_price.get("profit")/100)
+		total_amount_with_margin=total_amount_with_profit+(total_amount_with_profit*tax_on_price.get("margin")/100)
+		price_list.append({"supplier":rate.get("price_list"),"price":flt(total_amount_with_margin, 2)})
+	return price_list
+
+def item_taxes_with_profit(item_code):
+	#print "Inside item taxes"
+	doc=frappe.get_doc("Item",item_code)
+	item_taxes=0
+	for raw in doc.get("taxes"):
+		item_taxes+=raw.tax_rate
+	profit=doc.profit
+	margin=doc.margin
+	tax_template=frappe.db.get_value("Purchase Taxes and Charges Template",{"is_default":1},"name")
+	tax_template_doc=frappe.get_doc("Purchase Taxes and Charges Template",tax_template)
+	tempate_tax_rate=0
+	tempate_tax_amount=0
+	for raw in tax_template_doc.get("taxes"):
+		if raw.rate:
+			tempate_tax_rate+=raw.rate
+		else: 
+			tempate_tax_amount+=raw.amount
+
+	total_tax=item_taxes+tempate_tax_rate
+
+	return{"tax":total_tax,"amount":tempate_tax_amount,"profit":profit,"margin":margin}

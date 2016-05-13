@@ -253,3 +253,39 @@ frappe.ui.form.on("Item","onload" ,function(frm){
 	}
 })
 
+frappe.ui.form.on("Quotation Item", "item_code", function(frm,cdt,cdn){
+		items=locals[cdt][cdn]
+		return frappe.call({
+			method: "osmosis.custom_methods.price_list_rates",
+			args: {
+				item_code: items.item_code,
+			},
+			callback: function(r) {
+				if(r.message){
+					html = frappe.render_template("price_list", { "items": r.message });
+					items.prices = html;
+					cur_frm.refresh_fields();
+					$(cur_frm.cur_grid.fields_dict.prices.wrapper).find(".select-price .prices").click(function(){
+						items.rate = $(this).closest("tr").find(".rate").text();
+						cur_frm.cur_grid.refresh_field("rate");
+					})
+				}
+			}
+		});
+	});
+
+if(cur_frm.doc.doctype == "Quotation") {
+	cur_frm.cscript.items_on_form_rendered = function(frm, cdt, cdn) {
+		if(cur_frm.doc.docstatus == 1){
+			cur_frm.get_field("items").grid.docfields[19].hidden=1
+			cur_frm.refresh_fields()
+		}
+		else{
+			$(cur_frm.cur_grid.fields_dict.prices.wrapper).find(".select-price .prices").click(function(){
+				items=cur_frm.cur_grid.get_open_form().doc
+				items.rate = $(this).closest("tr").find(".rate").text();
+				cur_frm.cur_grid.refresh_field("rate");
+			});
+		}
+	}
+}

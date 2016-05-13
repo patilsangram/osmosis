@@ -1,0 +1,8 @@
+{
+	"js/osmosis.min.js": [
+		"public/templates/price_list.html"
+	],
+	"css/osmosis.min.css": [
+		"public/css/osmosis.css"
+	]
+}
